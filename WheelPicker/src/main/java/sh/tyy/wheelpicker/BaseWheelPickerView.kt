@@ -1,7 +1,6 @@
 package sh.tyy.wheelpicker
 
 import android.content.Context
-import android.database.DataSetObservable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -75,7 +74,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             }
         }
 
-    private val recyclerView: WheelPickerRecyclerView by lazy {
+    protected val recyclerView: WheelPickerRecyclerView by lazy {
         val recyclerView = WheelPickerRecyclerView(context)
         addView(recyclerView)
         recyclerView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
