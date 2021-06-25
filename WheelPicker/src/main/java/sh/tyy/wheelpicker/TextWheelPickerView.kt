@@ -32,35 +32,46 @@ class TextWheelPickerView @JvmOverloads constructor(
 ) : BaseWheelPickerView(context, attrs, defStyleAttr) {
     data class Item(val id: String, val text: String)
 
-    private val highlightView: View = View(context)
+    private val highlightView: View = Utils.buildHighlightView(context)
 
     val adapter: TextWheelAdapter = TextWheelAdapter()
+
+    var isHighlightingVisible: Boolean
+        set(value) {
+            highlightView.visibility = if (value) View.VISIBLE else View.INVISIBLE
+        }
+        get() {
+            return highlightView.visibility == View.VISIBLE
+        }
 
     init {
         setAdapter(adapter)
         addView(highlightView)
-        highlightView.setBackgroundColor(Color.parseColor("#11000000"))
-        highlightView.outlineProvider = object : ViewOutlineProvider() {
-            override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(
-                    0,
-                    0,
-                    view.width,
-                    view.height,
-                    dpToPx(8).toFloat()
-                )
-            }
-        }
-        highlightView.clipToOutline = true
         (highlightView.layoutParams as? LayoutParams)?.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT
             height =
                 context.resources.getDimensionPixelSize(R.dimen.text_wheel_item_height)
             gravity = Gravity.CENTER_VERTICAL
         }
-    }
-}
 
-fun dpToPx(dp: Int): Int {
-    return (dp * Resources.getSystem().displayMetrics.density).toInt()
+        attrs?.let {
+            context.theme.obtainStyledAttributes(
+                it,
+                R.styleable.TextWheelPickerView,
+                defStyleAttr,
+                0
+            ).apply {
+                for (i in 0 until indexCount) {
+                    when (getIndex(i)) {
+                        R.styleable.TextWheelPickerView_highlighting_visible -> {
+                            isHighlightingVisible = getBoolean(
+                                R.styleable.TextWheelPickerView_highlighting_visible,
+                                true
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
