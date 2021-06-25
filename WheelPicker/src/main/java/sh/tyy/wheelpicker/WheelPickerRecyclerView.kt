@@ -59,7 +59,9 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         snapHelper.attachToRecyclerView(this)
         overScrollMode = OVER_SCROLL_NEVER
         setHasFixedSize(true)
-        addItemDecoration(OffsetItemDecoration())
+        post {
+            addItemDecoration(OffsetItemDecoration())
+        }
     }
 
     override fun scrollToPosition(position: Int) {
