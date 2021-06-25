@@ -19,13 +19,13 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
-    interface WheelListener {
+    interface WheelPickerRecyclerViewListener {
         fun didSelectItem(position: Int)
     }
 
-    private var listener: WheelListener? = null
+    private var listener: WheelPickerRecyclerViewListener? = null
 
-    fun setWheelListener(listener: WheelListener) {
+    fun setWheelListener(listener: WheelPickerRecyclerViewListener) {
         this.listener = listener
     }
 
@@ -42,6 +42,15 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
             field = value
             listener?.didSelectItem(value)
         }
+
+    override fun setAdapter(adapter: Adapter<*>?) {
+        super.setAdapter(adapter)
+        adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                refreshCurrentPosition()
+            }
+        })
+    }
 
     init {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -75,6 +84,10 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
             return
         }
 
+        if (currentPosition == NO_POSITION) {
+            currentPosition = visibleCenterItemPosition
+        }
+
         if (hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
             hapticFeedbackLastTriggerPosition = visibleCenterItemPosition
             if (isEnabledHapticFeedback) {
@@ -93,12 +106,16 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         }
     }
 
+    fun refreshCurrentPosition() {
+        currentPosition = visibleCenterItemPosition()
+    }
+
     private fun visibleCenterItemPosition(): Int {
         val linearLayoutManager = (layoutManager as? LinearLayoutManager) ?: return NO_POSITION
 
         val firstIndex = linearLayoutManager.findFirstVisibleItemPosition()
         val lastIndex = linearLayoutManager.findLastVisibleItemPosition()
-        for (i in firstIndex until lastIndex) {
+        for (i in firstIndex..lastIndex) {
             val holder = findViewHolderForAdapterPosition(i) ?: continue
             val child: View = holder.itemView
             val centerY: Int = height / 2
