@@ -19,21 +19,52 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
+    interface WheelListener {
+        fun didSelectItem(position: Int)
+    }
+
+    private var listener: WheelListener? = null
+
+    fun setWheelListener(listener: WheelListener) {
+        this.listener = listener
+    }
+
     private val camera: Camera = Camera()
     private val wheelMatrix: Matrix = Matrix()
     private val snapHelper = WheelSnapHelper()
     var isEnabledHapticFeedback: Boolean = true
     private var hapticFeedbackLastTriggerPosition: Int = 0
     var currentPosition: Int = NO_POSITION
-        private set
+        private set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            listener?.didSelectItem(value)
+        }
 
     init {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         linearLayoutManager.stackFromEnd = true
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         snapHelper.attachToRecyclerView(this)
+        overScrollMode = OVER_SCROLL_NEVER
         setHasFixedSize(true)
         addItemDecoration(OffsetItemDecoration())
+    }
+
+    override fun scrollToPosition(position: Int) {
+        super.scrollToPosition(position)
+        post {
+            val layoutManager = this.layoutManager ?: return@post
+            val view = layoutManager.findViewByPosition(position) ?: return@post
+
+            val snapDistance =
+                snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
+            if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                scrollBy(snapDistance[0], snapDistance[1])
+            }
+        }
     }
 
     override fun onScrolled(dx: Int, dy: Int) {
@@ -44,12 +75,14 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
             return
         }
 
-        if (isEnabledHapticFeedback && hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
+        if (hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
             hapticFeedbackLastTriggerPosition = visibleCenterItemPosition
-            performHapticFeedback(
-                HapticFeedbackConstants.KEYBOARD_TAP,
-                HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
-            )
+            if (isEnabledHapticFeedback) {
+                performHapticFeedback(
+                    HapticFeedbackConstants.KEYBOARD_TAP,
+                    HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
+                )
+            }
         }
     }
 
