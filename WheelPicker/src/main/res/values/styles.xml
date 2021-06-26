@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WheelSheetTranslate">
+        <item name="android:windowEnterAnimation">@anim/wheel_sheet_translate_in</item>
+        <item name="android:windowExitAnimation">@anim/wheel_sheet_translate_out</item>
+    </style>
+</resources>

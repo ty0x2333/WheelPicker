@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class TextWheelViewHolder(private val textView: TextView) :
     BaseWheelPickerView.ViewHolder<TextWheelPickerView.Item>(textView) {
@@ -29,7 +30,11 @@ class TextWheelPickerView @JvmOverloads constructor(
 ) : BaseWheelPickerView(context, attrs, defStyleAttr) {
     data class Item(val id: String, val text: String)
 
-    private val highlightView: View = Utils.buildHighlightView(context)
+    private val highlightView: View = run {
+        val view = View(context)
+        view.background = ContextCompat.getDrawable(context, R.drawable.text_wheel_highlight_bg)
+        view
+    }
 
     val adapter: TextWheelAdapter = TextWheelAdapter()
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/text_wheel_highlight_bg_color" />
+
+    <corners android:radius="@dimen/wheel_picker_highlight_radius" />
+
+</shape>

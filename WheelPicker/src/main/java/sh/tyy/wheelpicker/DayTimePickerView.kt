@@ -4,17 +4,32 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 
 class DayTimePickerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener {
 
-    private val highlightView: View = Utils.buildHighlightView(context)
+    interface Listener {
+        fun didSelectData(day: Int, hour: Int, minute: Int)
+    }
+
+    private val highlightView: View = run {
+        val view = View(context)
+        view.background = ContextCompat.getDrawable(context, R.drawable.text_wheel_highlight_bg)
+        view
+    }
     private val dayPickerView: TextWheelPickerView
     private val hourPickerView: TextWheelPickerView
     private val minutePickerView: TextWheelPickerView
+
+    private var listener: Listener? = null
+
+    fun setWheelListener(listener: Listener) {
+        this.listener = listener
+    }
 
     var day: Int
         set(value) {
@@ -63,5 +78,15 @@ class DayTimePickerView @JvmOverloads constructor(
                 context.resources.getDimensionPixelSize(R.dimen.text_wheel_picker_item_height)
             gravity = Gravity.CENTER_VERTICAL
         }
+
+        dayPickerView.setWheelListener(this)
+        hourPickerView.setWheelListener(this)
+        minutePickerView.setWheelListener(this)
     }
+
+    // region BaseWheelPickerView.WheelPickerViewListener
+    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+        listener?.didSelectData(day, hour, minute)
+    }
+    // endregion
 }

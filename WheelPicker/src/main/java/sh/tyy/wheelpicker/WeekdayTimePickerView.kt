@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +18,11 @@ class WeekdayTimePickerView @JvmOverloads constructor(
         fun didSelectData(weekday: Int, hour: Int, minute: Int)
     }
 
-    private val highlightView: View = Utils.buildHighlightView(context)
+    private val highlightView: View = run {
+        val view = View(context)
+        view.background = ContextCompat.getDrawable(context, R.drawable.text_wheel_highlight_bg)
+        view
+    }
     private val weekdayPickerView: TextWheelPickerView
     private val hourPickerView: TextWheelPickerView
     private val minutePickerView: TextWheelPickerView

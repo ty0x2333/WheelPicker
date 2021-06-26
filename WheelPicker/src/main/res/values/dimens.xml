@@ -3,4 +3,5 @@
     <dimen name="text_wheel_picker_item_height">32dp</dimen>
     <dimen name="text_wheel_picker_text_size">22sp</dimen>
     <dimen name="wheel_picker_highlight_radius">8dp</dimen>
+    <dimen name="wheel_action_sheet_bg_radius">16dp</dimen>
 </resources>
