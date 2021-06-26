@@ -21,6 +21,7 @@
 
         <activity android:name=".WeekdayTimePickerExampleActivity" />
         <activity android:name=".DayTimePickerExampleActivity" />
+        <activity android:name=".CustomWheelPickerExampleActivity" />
     </application>
 
 </manifest>

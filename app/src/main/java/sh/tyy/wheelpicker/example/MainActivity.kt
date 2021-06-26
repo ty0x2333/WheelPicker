@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity(), PickerExample {
             val intent = Intent(this, WeekdayTimePickerExampleActivity::class.java)
             startActivity(intent)
         }
+
+        val customPickerButton: Button = findViewById(R.id.custom_picker_button)
+        customPickerButton.setOnClickListener {
+            val intent = Intent(this, CustomWheelPickerExampleActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("SetTextI18n")

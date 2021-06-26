@@ -26,6 +26,12 @@
             android:layout_height="wrap_content"
             android:text="Weekday Time Picker" />
 
+        <Button
+            android:id="@+id/custom_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
