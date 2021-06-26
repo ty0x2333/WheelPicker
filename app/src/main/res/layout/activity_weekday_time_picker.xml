@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingVertical="40dp"
+    tools:context=".WeekdayTimePickerExampleActivity">
+
+
+    <CheckBox
+        android:id="@+id/circular_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="isCircular" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Selected Item" />
+
+    <TextView
+        android:id="@+id/selected_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="item" />
+
+    <Button
+        android:id="@+id/action_sheet_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Picker Action Sheet" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/wheel_picker_bg"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="8dp">
+
+        <sh.tyy.wheelpicker.WeekdayTimePickerView
+            android:id="@+id/weekday_time_picker_view"
+            android:layout_width="310dp"
+            android:layout_height="210dp" />
+    </FrameLayout>
+
+</LinearLayout>
