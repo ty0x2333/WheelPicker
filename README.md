@@ -1,6 +1,11 @@
 WheelPicker
 ===
+iOS-style scroll wheel selector
 
+Read this in other languages: [*简体中文*](README.zh-cn.md)
+
+Preview
+---
 ![Preview](resources/preview.gif)
 
 |Day|Night|
