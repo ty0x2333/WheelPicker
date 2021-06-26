@@ -44,6 +44,11 @@ class TextWheelPickerView @JvmOverloads constructor(
             return highlightView.visibility == View.VISIBLE
         }
 
+    override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
+        super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
+        recyclerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+    }
+
     init {
         setAdapter(adapter)
         addView(highlightView)

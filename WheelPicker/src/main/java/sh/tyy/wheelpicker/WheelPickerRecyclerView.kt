@@ -32,8 +32,17 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     private val camera: Camera = Camera()
     private val wheelMatrix: Matrix = Matrix()
     private val snapHelper = WheelSnapHelper()
-    var isEnabledHapticFeedback: Boolean = true
     private var hapticFeedbackLastTriggerPosition: Int = 0
+
+    /**
+     * The internal state when scrolling to the specified position and ignoring the vibration feedback.
+     *
+     * To disable vibration feedback externally, please use `isHapticFeedbackEnabled`.
+     *
+     * @see isHapticFeedbackEnabled
+     * */
+    private var ignoreHapticFeedback: Boolean = false
+
     var currentPosition: Int = NO_POSITION
         private set(value) {
             if (field == value) {
@@ -59,12 +68,19 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         snapHelper.attachToRecyclerView(this)
         overScrollMode = OVER_SCROLL_NEVER
         setHasFixedSize(true)
-        post {
-            addItemDecoration(OffsetItemDecoration())
-        }
+        addItemDecoration(OffsetItemDecoration())
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        invalidateItemDecorations()
     }
 
     override fun scrollToPosition(position: Int) {
+        scrollToPosition(position)
+    }
+
+    fun scrollToPosition(position: Int, completion: (() -> Unit)? = null) {
         super.scrollToPosition(position)
         post {
             val layoutManager = this.layoutManager ?: return@post
@@ -75,6 +91,18 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
             if (snapDistance[0] != 0 || snapDistance[1] != 0) {
                 scrollBy(snapDistance[0], snapDistance[1])
             }
+            completion?.invoke()
+        }
+    }
+
+    fun scrollToPosition(position: Int, ignoreHapticFeedback: Boolean) {
+        if (ignoreHapticFeedback && isHapticFeedbackEnabled) {
+            this.ignoreHapticFeedback = true
+            scrollToPosition(position) {
+                this.ignoreHapticFeedback = false
+            }
+        } else {
+            scrollToPosition(position)
         }
     }
 
@@ -92,7 +120,7 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
 
         if (hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
             hapticFeedbackLastTriggerPosition = visibleCenterItemPosition
-            if (isEnabledHapticFeedback) {
+            if (isHapticFeedbackEnabled && !ignoreHapticFeedback) {
                 performHapticFeedback(
                     HapticFeedbackConstants.KEYBOARD_TAP,
                     HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING

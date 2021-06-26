@@ -60,9 +60,9 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         set(value) {
             if (isCircular) {
                 val position = recyclerView.currentPosition
-                recyclerView.scrollToPosition(value - selectedIndex + position)
+                recyclerView.scrollToPosition(value - selectedIndex + position, true)
             } else {
-                recyclerView.scrollToPosition(value)
+                recyclerView.scrollToPosition(value, true)
             }
         }
         get() {
@@ -96,20 +96,18 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
     var isCircular: Boolean
         set(value) {
             (recyclerView.adapter as? AdapterImp)?.isCircular = value
-            recyclerView.isEnabledHapticFeedback = false
             if (value) {
                 val valueCount = (recyclerView.adapter as? AdapterImp)?.valueCount ?: 0
                 if (valueCount > 0) {
-                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) / valueCount) * valueCount)
+                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) / valueCount) * valueCount, true)
                 } else {
-                    recyclerView.scrollToPosition(0)
+                    recyclerView.scrollToPosition(0, true)
                 }
             } else {
-                recyclerView.scrollToPosition(0)
+                recyclerView.scrollToPosition(0, true)
             }
 
             recyclerView.post {
-                recyclerView.isEnabledHapticFeedback = true
                 recyclerView.refreshCurrentPosition()
             }
         }
