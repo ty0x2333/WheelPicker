@@ -4,14 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/custom_wheel_picker_item_height"
     android:orientation="horizontal">
+    <!--
+    <RelativeLayout
+    ...
+    android:layout_height="@dimen/custom_wheel_picker_item_height"
+    ...>
 
-    <androidx.constraintlayout.utils.widget.ImageFilterView
+    The height of the item needs to be a fixed value. It should not be `match_parent` or `wrap_content`.
+     -->
+
+    <ImageView
         android:id="@+id/icon_image_ivew"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/text_view"
-        android:src="@drawable/add" />
+        android:src="@drawable/add"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/text_view"
@@ -22,6 +31,6 @@
         android:gravity="center"
         android:textColor="@color/text_wheel_text_color"
         android:textSize="@dimen/text_wheel_picker_text_size"
-        tools:text="Text"
-        tools:ignore="RelativeOverlap" />
+        tools:ignore="RelativeOverlap"
+        tools:text="Text" />
 </RelativeLayout>
