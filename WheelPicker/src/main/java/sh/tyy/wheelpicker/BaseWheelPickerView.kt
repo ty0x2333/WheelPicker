@@ -93,6 +93,11 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         this.listener = listener
     }
 
+    override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
+        super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
+        recyclerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+    }
+
     var isCircular: Boolean
         set(value) {
             val selectedIndex = this.selectedIndex
