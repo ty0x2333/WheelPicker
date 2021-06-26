@@ -69,7 +69,7 @@ class WeekdayTimePickerView @JvmOverloads constructor(
         (highlightView.layoutParams as? LayoutParams)?.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT
             height =
-                context.resources.getDimensionPixelSize(R.dimen.text_wheel_item_height)
+                context.resources.getDimensionPixelSize(R.dimen.text_wheel_picker_item_height)
             gravity = Gravity.CENTER_VERTICAL
         }
         refreshWeekdays()

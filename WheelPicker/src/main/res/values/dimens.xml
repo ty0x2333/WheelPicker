@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_wheel_item_height">34dp</dimen>
+    <dimen name="text_wheel_picker_item_height">32dp</dimen>
+    <dimen name="text_wheel_picker_text_size">22sp</dimen>
+    <dimen name="wheel_picker_highlight_radius">8dp</dimen>
 </resources>
