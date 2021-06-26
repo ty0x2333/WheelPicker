@@ -96,14 +96,15 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         }
     }
 
-    fun scrollToPosition(position: Int, ignoreHapticFeedback: Boolean) {
+    fun scrollToPosition(position: Int, ignoreHapticFeedback: Boolean, completion: (() -> Unit)? = null) {
         if (ignoreHapticFeedback && isHapticFeedbackEnabled) {
             this.ignoreHapticFeedback = true
             scrollToPosition(position) {
                 this.ignoreHapticFeedback = false
+                completion?.invoke()
             }
         } else {
-            scrollToPosition(position)
+            scrollToPosition(position, completion)
         }
     }
 

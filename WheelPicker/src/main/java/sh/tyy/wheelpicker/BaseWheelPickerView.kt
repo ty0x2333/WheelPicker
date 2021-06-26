@@ -95,20 +95,20 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
 
     var isCircular: Boolean
         set(value) {
+            val selectedIndex = this.selectedIndex
             (recyclerView.adapter as? AdapterImp)?.isCircular = value
+            val completion = {
+                recyclerView.refreshCurrentPosition()
+            }
             if (value) {
                 val valueCount = (recyclerView.adapter as? AdapterImp)?.valueCount ?: 0
                 if (valueCount > 0) {
-                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) / valueCount) * valueCount, true)
+                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) % valueCount) * valueCount + selectedIndex, true, completion)
                 } else {
-                    recyclerView.scrollToPosition(0, true)
+                    recyclerView.scrollToPosition(selectedIndex, true, completion)
                 }
             } else {
-                recyclerView.scrollToPosition(0, true)
-            }
-
-            recyclerView.post {
-                recyclerView.refreshCurrentPosition()
+                recyclerView.scrollToPosition(selectedIndex, true, completion)
             }
         }
         get() = (recyclerView.adapter as? AdapterImp)?.isCircular ?: false
