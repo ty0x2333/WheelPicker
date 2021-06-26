@@ -20,7 +20,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
     }
 
     interface WheelPickerViewListener {
-        fun didSelectItem(index: Int)
+        fun didSelectItem(picker: BaseWheelPickerView, index: Int)
     }
 
     abstract class ViewHolder<Element: Any>(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -117,7 +117,9 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         recyclerView
     }
 
+    // region WheelPickerRecyclerView.WheelPickerRecyclerViewListener
     override fun didSelectItem(position: Int) {
-        listener?.didSelectItem(selectedIndex)
+        listener?.didSelectItem(this, selectedIndex)
     }
+    // enregion
 }

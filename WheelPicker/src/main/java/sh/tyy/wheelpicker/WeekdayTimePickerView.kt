@@ -11,7 +11,11 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener {
+
+    interface Listener {
+        fun didSelectData(weekday: Int, hour: Int, minute: Int)
+    }
 
     private val highlightView: View = Utils.buildHighlightView(context)
     private val weekdayPickerView: TextWheelPickerView
@@ -29,6 +33,8 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     )
 
     private var weekdays: List<Int> = normalWeekdays
+
+    private var listener: Listener? = null
 
     var weekday: Int
         set(value) {
@@ -57,6 +63,14 @@ class WeekdayTimePickerView @JvmOverloads constructor(
         }
         get() = calendar.firstDayOfWeek
 
+    var isCircular: Boolean = false
+        set(value) {
+            field = value
+            weekdayPickerView.isCircular = value
+            hourPickerView.isCircular = value
+            minutePickerView.isCircular = value
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
         weekdayPickerView = findViewById(R.id.day_picker)
@@ -65,6 +79,7 @@ class WeekdayTimePickerView @JvmOverloads constructor(
         minutePickerView = findViewById(R.id.minute_picker)
         minutePickerView.adapter.values =
             (0 until 60).map { TextWheelPickerView.Item("$it", "$it") }
+
         addView(highlightView)
         (highlightView.layoutParams as? LayoutParams)?.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -73,6 +88,14 @@ class WeekdayTimePickerView @JvmOverloads constructor(
             gravity = Gravity.CENTER_VERTICAL
         }
         refreshWeekdays()
+
+        weekdayPickerView.setWheelListener(this)
+        hourPickerView.setWheelListener(this)
+        minutePickerView.setWheelListener(this)
+    }
+
+    fun setWheelListener(listener: Listener) {
+        this.listener = listener
     }
 
     private fun refreshWeekdays() {
@@ -90,4 +113,10 @@ class WeekdayTimePickerView @JvmOverloads constructor(
             )
         }
     }
+
+    // region BaseWheelPickerView.WheelPickerViewListener
+    override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
+        listener?.didSelectData(weekday, hour, minute)
+    }
+    // endregion
 }

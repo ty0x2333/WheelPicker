@@ -34,6 +34,14 @@ class DayTimePickerView @JvmOverloads constructor(
         }
         get() = minutePickerView.selectedIndex
 
+    var isCircular: Boolean = false
+        set(value) {
+            field = value
+            dayPickerView.isCircular = value
+            hourPickerView.isCircular = value
+            minutePickerView.isCircular = value
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
         dayPickerView = findViewById(R.id.day_picker)

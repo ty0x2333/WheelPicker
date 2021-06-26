@@ -91,6 +91,7 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
             if (snapDistance[0] != 0 || snapDistance[1] != 0) {
                 scrollBy(snapDistance[0], snapDistance[1])
             }
+            refreshCurrentPosition()
             completion?.invoke()
         }
     }
