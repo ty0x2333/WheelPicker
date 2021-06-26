@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="custom_wheel_picker_item_height">60dp</dimen>
+    <dimen name="custom_wheel_picker_item_height">44dp</dimen>
 </resources>
