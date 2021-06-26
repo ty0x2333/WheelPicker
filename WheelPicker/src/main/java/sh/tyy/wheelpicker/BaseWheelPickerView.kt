@@ -108,7 +108,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             if (value) {
                 val valueCount = (recyclerView.adapter as? AdapterImp)?.valueCount ?: 0
                 if (valueCount > 0) {
-                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) % valueCount) * valueCount + selectedIndex, true, completion)
+                    recyclerView.scrollToPosition(((Int.MAX_VALUE / 2) / valueCount) * valueCount + selectedIndex, true, completion)
                 } else {
                     recyclerView.scrollToPosition(selectedIndex, true, completion)
                 }
