@@ -1,6 +1,6 @@
 WheelPicker
 ===
-iOS-style scroll wheel selector
+iOS-style scroll wheel picker
 
 Read this in other languages: [*简体中文*](README.zh-cn.md)
 
