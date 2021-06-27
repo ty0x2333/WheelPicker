@@ -6,5 +6,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "WheelPicker"
-include ':app'
+include ':example'
 include ':WheelPicker'
