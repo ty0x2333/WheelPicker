@@ -27,8 +27,5 @@
         android:gravity="center"
         android:text="@android:string/ok"
         android:textColor="#1B93FF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="18sp" />
 </LinearLayout>
