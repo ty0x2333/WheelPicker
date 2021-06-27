@@ -13,22 +13,6 @@ def libraryVersion = '0.1.0-SNAPSHOT'
 group = libraryGroupId
 version = libraryVersion
 
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId libraryGroupId
-            version = libraryVersion
-            artifactId libraryArtifactId
-            // Tell maven to prepare the generated "*.aar" file for publishing
-            artifact("$buildDir/outputs/aar/${libraryArtifactId}-release.aar")
-        }
-    }
-
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
-
 android {
     compileSdk 30
     buildToolsVersion "30.0.3"
@@ -65,4 +49,18 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = libraryGroupId
+                artifactId = libraryArtifactId
+                version = libraryVersion
+            }
+        }
+    }
 }
