@@ -2,6 +2,9 @@ WheelPicker
 ===
 iOS风格的滚轮选择器
 
+
+[![codebeat badge](https://codebeat.co/badges/346d671e-d683-4471-be7d-a3d6f742de86)](https://codebeat.co/projects/github-com-ty0x2333-wheelpicker-master)
+
 其他语言版本: [*English*](README.md)
 
 预览

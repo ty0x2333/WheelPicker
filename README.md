@@ -2,6 +2,8 @@ WheelPicker
 ===
 iOS-style scroll wheel picker
 
+[![codebeat badge](https://codebeat.co/badges/346d671e-d683-4471-be7d-a3d6f742de86)](https://codebeat.co/projects/github-com-ty0x2333-wheelpicker-master)
+
 Read this in other languages: [*简体中文*](README.zh-cn.md)
 
 Preview
