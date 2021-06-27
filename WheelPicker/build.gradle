@@ -4,7 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
-def libraryGroupId = 'sh.tyy'
+//def libraryGroupId = 'sh.tyy'
+def libraryGroupId = 'com.github.ty0x2333'
 def libraryArtifactId = 'wheelpicker'
 def libraryVersionCode = 11
 def libraryVersion = '0.1.0-SNAPSHOT'
