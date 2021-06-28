@@ -14,6 +14,15 @@ Preview
 |---|---|
 |![Day](resources/day.png)|![Night](resources/night.png)|
 
+Download
+---
+
+Download the latest AAR from [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) via Gradle:
+
+```gradle
+implementation 'sh.tyy:wheelpicker:0.1.0'
+```
+
 Custom
 ---
 Customize the style of the item in the same way as the `RecyclerView`.
