@@ -1,17 +1,13 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'maven-publish'
 }
 
-//def libraryGroupId = 'sh.tyy'
-def libraryGroupId = 'com.github.ty0x2333'
+def libraryGroupId = 'sh.tyy'
+//def libraryGroupId = 'com.github.ty0x2333'
 def libraryArtifactId = 'wheelpicker'
 def libraryVersionCode = 1
 def libraryVersion = '0.1.0-SNAPSHOT'
-
-group = libraryGroupId
-version = libraryVersion
 
 android {
     compileSdk 30
@@ -51,16 +47,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                from components.release
-                groupId = libraryGroupId
-                artifactId = libraryArtifactId
-                version = libraryVersion
-            }
-        }
-    }
+
+ext {
+    PUBLISH_GROUP_ID = libraryGroupId
+    PUBLISH_ARTIFACT_ID = libraryArtifactId
+    PUBLISH_VERSION = libraryVersion
 }
+
+apply from: "${rootProject.projectDir}/release-sonatype.gradle"
