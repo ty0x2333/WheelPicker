@@ -89,15 +89,17 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     fun smoothScrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
         super.smoothScrollToPosition(position)
         post {
-            val layoutManager = this.layoutManager ?: return@post
-            val view = layoutManager.findViewByPosition(position) ?: return@post
+            do {
+                val layoutManager = this.layoutManager ?: break
+                val view = layoutManager.findViewByPosition(position) ?: break
 
-            val snapDistance =
-                snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
-            if (snapDistance[0] != 0 || snapDistance[1] != 0) {
-                smoothScrollBy(snapDistance[0], snapDistance[1])
-            }
-            refreshCurrentPosition()
+                val snapDistance =
+                    snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: break
+                if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                    smoothScrollBy(snapDistance[0], snapDistance[1])
+                }
+                refreshCurrentPosition()
+            } while (false)
             completion?.invoke()
         }
     }
@@ -105,20 +107,26 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
         super.scrollToPosition(position)
         post {
-            val layoutManager = this.layoutManager ?: return@post
-            val view = layoutManager.findViewByPosition(position) ?: return@post
+            do {
+                val layoutManager = this.layoutManager ?: break
+                val view = layoutManager.findViewByPosition(position) ?: break
 
-            val snapDistance =
-                snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
-            if (snapDistance[0] != 0 || snapDistance[1] != 0) {
-                scrollBy(snapDistance[0], snapDistance[1])
-            }
-            refreshCurrentPosition()
+                val snapDistance =
+                    snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: break
+                if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                    scrollBy(snapDistance[0], snapDistance[1])
+                }
+                refreshCurrentPosition()
+            } while (false)
             completion?.invoke()
         }
     }
 
-    fun scrollToPosition(position: Int, ignoreHapticFeedback: Boolean, completion: (() -> Unit)? = null) {
+    fun scrollToCenterPosition(
+        position: Int,
+        ignoreHapticFeedback: Boolean,
+        completion: (() -> Unit)? = null
+    ) {
         if (ignoreHapticFeedback && isHapticFeedbackEnabled) {
             this.ignoreHapticFeedback = true
             scrollToCenterPosition(position) {

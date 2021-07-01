@@ -28,7 +28,7 @@ class TextWheelPickerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : BaseWheelPickerView(context, attrs, defStyleAttr) {
-    data class Item(val id: String, val text: String)
+    data class Item(val id: String, val text: CharSequence)
 
     private val highlightView: View = run {
         val view = View(context)
