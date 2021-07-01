@@ -2,7 +2,6 @@ package sh.tyy.wheelpicker
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -22,6 +21,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
 
     interface WheelPickerViewListener {
         fun didSelectItem(picker: BaseWheelPickerView, index: Int)
+        fun onScrollStateChanged(state: Int) {}
     }
 
     abstract class ViewHolder<Element : Any>(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -79,9 +79,9 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             index
         }
         if (animated) {
-            recyclerView.smoothScrollToPosition(dstPosition)
+            recyclerView.smoothScrollToCenterPosition(dstPosition)
         } else {
-            recyclerView.scrollToPosition(dstPosition, true)
+            recyclerView.scrollToCenterPosition(dstPosition, true)
         }
     }
 
@@ -91,6 +91,11 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         recyclerView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         recyclerView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         recyclerView.setWheelListener(this)
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                listener?.onScrollStateChanged(newState)
+            }
+        })
         recyclerView
     }
 
@@ -123,16 +128,16 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             if (value) {
                 val valueCount = (recyclerView.adapter as? AdapterImp)?.valueCount ?: 0
                 if (valueCount > 0) {
-                    recyclerView.scrollToPosition(
+                    recyclerView.scrollToCenterPosition(
                         ((Int.MAX_VALUE / 2) / valueCount) * valueCount + selectedIndex,
                         true,
                         completion
                     )
                 } else {
-                    recyclerView.scrollToPosition(selectedIndex, true, completion)
+                    recyclerView.scrollToCenterPosition(selectedIndex, true, completion)
                 }
             } else {
-                recyclerView.scrollToPosition(selectedIndex, true, completion)
+                recyclerView.scrollToCenterPosition(selectedIndex, true, completion)
             }
         }
         get() = (recyclerView.adapter as? AdapterImp)?.isCircular ?: false
