@@ -8,22 +8,26 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import sh.tyy.wheelpicker.BaseWheelPickerView
+import sh.tyy.wheelpicker.TextWheelAdapter
 import sh.tyy.wheelpicker.TextWheelPickerView
-import java.util.*
 
 class MainActivity : AppCompatActivity(), PickerExample {
     private lateinit var pickerView: TextWheelPickerView
     override lateinit var selectedItemTextView: TextView
     override lateinit var circularCheckBox: CheckBox
+
+
+    private val simpleAdapter = TextWheelAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         pickerView = findViewById(R.id.picker_view)
-
-        pickerView.adapter.values = (0 until 20).map { TextWheelPickerView.Item("$it", "index-$it") }
+        pickerView.setAdapter(simpleAdapter)
+        simpleAdapter.values = (0 until 20).map { TextWheelPickerView.Item("$it", "index-$it") }
         selectedItemTextView = findViewById(R.id.selected_text_view)
         circularCheckBox = findViewById(R.id.circular_check_box)
-        pickerView.setWheelListener(object: BaseWheelPickerView.WheelPickerViewListener {
+        pickerView.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
             override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
                 updateSelectedText(index)
             }
@@ -50,11 +54,17 @@ class MainActivity : AppCompatActivity(), PickerExample {
             val intent = Intent(this, CustomWheelPickerExampleActivity::class.java)
             startActivity(intent)
         }
+
+        val datePickerButton: Button = findViewById(R.id.date_picker_button)
+        datePickerButton.setOnClickListener {
+            val intent = Intent(this, DatePickerExampleActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("SetTextI18n")
     fun updateSelectedText(selectedIndex: Int) {
-        val text = pickerView.adapter.values.getOrNull(selectedIndex)
+        val text = simpleAdapter.values.getOrNull(selectedIndex)
         selectedItemTextView.text = "Selected: $text"
     }
 }

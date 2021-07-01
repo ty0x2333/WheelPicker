@@ -49,7 +49,9 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
                 return
             }
             field = value
-            listener?.didSelectItem(value)
+            if (scrollState == SCROLL_STATE_IDLE) {
+                listener?.didSelectItem(value)
+            }
         }
 
     override fun setAdapter(adapter: Adapter<*>?) {
@@ -77,10 +79,30 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     }
 
     override fun scrollToPosition(position: Int) {
-        scrollToPosition(position)
+        scrollToCenterPosition(position)
     }
 
-    fun scrollToPosition(position: Int, completion: (() -> Unit)? = null) {
+    override fun smoothScrollToPosition(position: Int) {
+        smoothScrollToCenterPosition(position)
+    }
+
+    fun smoothScrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
+        super.smoothScrollToPosition(position)
+        post {
+            val layoutManager = this.layoutManager ?: return@post
+            val view = layoutManager.findViewByPosition(position) ?: return@post
+
+            val snapDistance =
+                snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
+            if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                smoothScrollBy(snapDistance[0], snapDistance[1])
+            }
+            refreshCurrentPosition()
+            completion?.invoke()
+        }
+    }
+
+    fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
         super.scrollToPosition(position)
         post {
             val layoutManager = this.layoutManager ?: return@post
@@ -99,12 +121,12 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     fun scrollToPosition(position: Int, ignoreHapticFeedback: Boolean, completion: (() -> Unit)? = null) {
         if (ignoreHapticFeedback && isHapticFeedbackEnabled) {
             this.ignoreHapticFeedback = true
-            scrollToPosition(position) {
+            scrollToCenterPosition(position) {
                 this.ignoreHapticFeedback = false
                 completion?.invoke()
             }
         } else {
-            scrollToPosition(position, completion)
+            scrollToCenterPosition(position, completion)
         }
     }
 

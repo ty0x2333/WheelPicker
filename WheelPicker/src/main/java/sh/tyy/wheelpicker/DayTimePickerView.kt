@@ -57,19 +57,27 @@ class DayTimePickerView @JvmOverloads constructor(
             minutePickerView.isCircular = value
         }
 
+    private val dayAdapter = TextWheelAdapter()
+    private val hourAdapter = TextWheelAdapter()
+    private val minuteAdapter = TextWheelAdapter()
+
     init {
         LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
-        dayPickerView = findViewById(R.id.day_picker)
-        dayPickerView.adapter.values = (1..31).map {
+        dayPickerView = findViewById(R.id.left_picker)
+        dayPickerView.setAdapter(dayAdapter)
+        dayAdapter.values = (1..31).map {
             TextWheelPickerView.Item(
                 "$it",
                 context.getString(R.string.day_time_picker_format_day, it)
             )
         }
-        hourPickerView = findViewById(R.id.hour_picker)
-        hourPickerView.adapter.values = (0 until 24).map { TextWheelPickerView.Item("$it", "$it") }
-        minutePickerView = findViewById(R.id.minute_picker)
-        minutePickerView.adapter.values =
+        hourPickerView = findViewById(R.id.mid_picker)
+        hourPickerView.setAdapter(hourAdapter)
+        hourAdapter.values = (0 until 24).map { TextWheelPickerView.Item("$it", "$it") }
+
+        minutePickerView = findViewById(R.id.right_picker)
+        minutePickerView.setAdapter(minuteAdapter)
+        minuteAdapter.values =
             (0 until 60).map { TextWheelPickerView.Item("$it", "$it") }
         addView(highlightView)
         (highlightView.layoutParams as? LayoutParams)?.apply {

@@ -36,8 +36,6 @@ class TextWheelPickerView @JvmOverloads constructor(
         view
     }
 
-    val adapter: TextWheelAdapter = TextWheelAdapter()
-
     var isHighlightingVisible: Boolean
         set(value) {
             highlightView.visibility = if (value) View.VISIBLE else View.INVISIBLE
@@ -47,7 +45,6 @@ class TextWheelPickerView @JvmOverloads constructor(
         }
 
     init {
-        setAdapter(adapter)
         addView(highlightView)
         (highlightView.layoutParams as? LayoutParams)?.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT

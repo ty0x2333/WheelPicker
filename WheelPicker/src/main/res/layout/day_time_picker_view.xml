@@ -14,21 +14,21 @@
         tools:ignore="UselessParent">
 
         <sh.tyy.wheelpicker.TextWheelPickerView
-            android:id="@+id/day_picker"
+            android:id="@+id/left_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:highlighting_visible="false" />
 
         <sh.tyy.wheelpicker.TextWheelPickerView
-            android:id="@+id/hour_picker"
+            android:id="@+id/mid_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:highlighting_visible="false" />
 
         <sh.tyy.wheelpicker.TextWheelPickerView
-            android:id="@+id/minute_picker"
+            android:id="@+id/right_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
