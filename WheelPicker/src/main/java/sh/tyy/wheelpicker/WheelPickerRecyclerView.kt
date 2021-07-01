@@ -9,6 +9,7 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -71,6 +72,7 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         overScrollMode = OVER_SCROLL_NEVER
         setHasFixedSize(true)
         addItemDecoration(OffsetItemDecoration())
+        (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/text_wheel_picker_item_height"
     android:gravity="center"
-    android:textColor="@color/text_wheel_text_color"
+    android:textColor="@drawable/text_wheel_colors"
     android:textSize="@dimen/text_wheel_picker_text_size"
     tools:text="Text" />

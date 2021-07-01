@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="text_wheel_text_color">@android:color/white</color>
+    <color name="text_wheel_disable_text_color">#727987</color>
     <color name="text_wheel_highlight_bg_color">#11FFFFFF</color>
     <color name="wheel_action_sheet_bg_color">#111111</color>
 </resources>

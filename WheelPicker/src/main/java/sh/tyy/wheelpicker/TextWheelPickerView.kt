@@ -10,6 +10,7 @@ class TextWheelViewHolder(private val textView: TextView) :
     BaseWheelPickerView.ViewHolder<TextWheelPickerView.Item>(textView) {
     override fun onBindData(data: TextWheelPickerView.Item) {
         textView.text = data.text
+        textView.isEnabled = data.isEnabled
     }
 }
 
@@ -28,7 +29,7 @@ class TextWheelPickerView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : BaseWheelPickerView(context, attrs, defStyleAttr) {
-    data class Item(val id: String, val text: CharSequence)
+    data class Item(val id: String, val text: CharSequence, val isEnabled: Boolean = true)
 
     private val highlightView: View = run {
         val view = View(context)
