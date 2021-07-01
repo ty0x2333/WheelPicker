@@ -47,6 +47,9 @@ class YearWheelAdapter(valueEnabledProvider: WeakReference<DateWheelAdapter.Valu
         return Int.MAX_VALUE
     }
 
+    override val valueCount: Int
+        get() = Int.MAX_VALUE
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextWheelViewHolder {
         val view =
             LayoutInflater.from(parent.context)

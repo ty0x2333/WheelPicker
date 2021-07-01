@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 
 abstract class BaseWheelPickerView @JvmOverloads constructor(
     context: Context,
@@ -66,7 +67,8 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         get() {
             val position = recyclerView.currentPosition
             return if (isCircular) {
-                position % ((recyclerView.adapter as? AdapterImp)?.valueCount ?: 0)
+                val valueCount = (recyclerView.adapter as? AdapterImp)?.valueCount ?: 0
+                if (valueCount > 0) position % valueCount else NO_POSITION
             } else {
                 position
             }
