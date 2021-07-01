@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -22,8 +23,11 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
     override val selectedItemTextView: TextView
         get() = findViewById(R.id.selected_text_view)
 
-    private val formatter = SimpleDateFormat("yyyy-MM-dd")
+    private var formatter = SimpleDateFormat("yyyy-MM-dd")
     private val calendar = Calendar.getInstance()
+
+    private lateinit var maxDateTextField: TextInputEditText
+    private lateinit var minDateTextField: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +43,7 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
 
         datePickerView.setWheelListener(object : DatePickerView.Listener {
             override fun didSelectData(year: Int, month: Int, day: Int) {
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-                selectedItemTextView.text = formatter.format(calendar.time)
+                updateSelectedText(year, month, day)
             }
         })
 
@@ -55,7 +56,7 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
             }
         }
 
-        val minDateTextField: TextInputEditText = findViewById(R.id.min_date_text_field)
+        minDateTextField = findViewById(R.id.min_date_text_field)
         minDateTextField.setOnClickListener {
             showPicker { year, month, day ->
                 val calendar = Calendar.getInstance()
@@ -76,20 +77,14 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
                 try {
                     val date = formatter.parse(s.toString())
                     datePickerView.minDate = date
-                    val text = datePickerView.minDate?.let {
-                        formatter.format(it)
-                    } ?: ""
-                    if (minDateTextField.text?.toString() == text) {
-                        return
-                    }
-                    minDateTextField.setText(text)
+                    updateLimitTextFieldsText()
                 } catch (e: Throwable) {
                     datePickerView.minDate = null
                 }
             }
         })
 
-        val maxDateTextField: TextInputEditText = findViewById(R.id.max_date_text_field)
+        maxDateTextField = findViewById(R.id.max_date_text_field)
         maxDateTextField.setOnClickListener {
             showPicker { year, month, day ->
                 val calendar = Calendar.getInstance()
@@ -111,23 +106,64 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
                 try {
                     val date = formatter.parse(s.toString())
                     datePickerView.maxDate = date
-                    val text = datePickerView.maxDate?.let {
-                        formatter.format(it)
-                    } ?: ""
-                    if (maxDateTextField.text?.toString() == text) {
-                        return
-                    }
-                    maxDateTextField.setText(text)
+                    updateLimitTextFieldsText()
                 } catch (e: Throwable) {
                     datePickerView.maxDate = null
                 }
             }
         })
+
+        setupRadioGroup()
+    }
+
+    private fun setupRadioGroup() {
+        val yearMonthDayButton: RadioButton = findViewById(R.id.year_month_day_button)
+        val yearMonthButton: RadioButton = findViewById(R.id.year_month_button)
+        when (datePickerView.mode) {
+            DatePickerView.Mode.YEAR_MONTH_DAY -> yearMonthDayButton.isChecked = true
+            DatePickerView.Mode.YEAR_MONTH -> yearMonthButton.isChecked = true
+        }
+        yearMonthDayButton.setOnClickListener {
+            datePickerView.mode = DatePickerView.Mode.YEAR_MONTH_DAY
+            formatter = SimpleDateFormat("yyyy-MM-dd")
+            updateSelectedText(datePickerView.year, datePickerView.month, datePickerView.day)
+            updateLimitTextFieldsText()
+        }
+        yearMonthButton.setOnClickListener {
+            datePickerView.mode = DatePickerView.Mode.YEAR_MONTH
+            formatter = SimpleDateFormat("yyyy-MM")
+            updateSelectedText(datePickerView.year, datePickerView.month, datePickerView.day)
+            updateLimitTextFieldsText()
+        }
+    }
+
+    private fun updateSelectedText(year: Int, month: Int, day: Int) {
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+        selectedItemTextView.text = formatter.format(calendar.time)
+    }
+
+    private fun updateLimitTextFieldsText() {
+        val minDateText = datePickerView.minDate?.let {
+            formatter.format(it)
+        } ?: ""
+        if (minDateTextField.text?.toString() != minDateText) {
+            minDateTextField.setText(minDateText)
+        }
+
+        val maxDateText = datePickerView.maxDate?.let {
+            formatter.format(it)
+        } ?: ""
+        if (maxDateTextField.text?.toString() != maxDateText) {
+            maxDateTextField.setText(maxDateText)
+        }
     }
 
     private fun showPicker(completion: (year: Int, month: Int, day: Int) -> Unit) {
         val picker = DatePicker(this)
         picker.show(window)
+        picker.pickerView?.mode = datePickerView.mode
         picker.pickerView?.apply {
             year = datePickerView.year
             month = datePickerView.month

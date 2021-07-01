@@ -50,6 +50,26 @@ class DatePickerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : TripleDependentPickerView(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener {
 
+    enum class Mode {
+        YEAR_MONTH_DAY,
+        YEAR_MONTH
+    }
+
+    var mode: Mode = Mode.YEAR_MONTH_DAY
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            when (value) {
+                Mode.YEAR_MONTH_DAY -> dayPickerView.visibility = View.VISIBLE
+                Mode.YEAR_MONTH -> {
+                    dayPickerView.visibility = View.GONE
+                    day = 1
+                }
+            }
+        }
+
     override val adapters: Triple<RecyclerView.Adapter<*>, RecyclerView.Adapter<*>, RecyclerView.Adapter<*>>
         get() = Triple(yearAdapter, monthAdapter, dayAdapter)
 
