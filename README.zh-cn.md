@@ -8,9 +8,37 @@ iOS风格的滚轮选择器
 
 其他语言版本: [*English*](README.md)
 
+特性
+---
+1. 支持 `Day` / `Night` 模式
+2. 自定义样式
+3. 支持循环滚动
+
 预览
 ---
 ![Preview](resources/preview.gif)
+
+组件
+---
+1. DatePicker
+
+    [DatePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
+
+    `年-月-日` 或 `年-月` 选择器
+
+    支持 `最大` 和 `最小` 时间限制
+
+2. WeekdayTimePicker
+
+    [WeekdayTimePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
+
+    `周几-小时-分钟` 选择器
+
+3. DayTimePicker
+
+    [DayTimePickerExampleActivity 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+
+    `日-小时-分钟` 选择器
 
 下载及安装
 ---

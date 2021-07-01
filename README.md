@@ -8,6 +8,12 @@ iOS-style scroll wheel picker
 
 Read this in other languages: [*简体中文*](README.zh-cn.md)
 
+Feature
+---
+1. `Day` / `Night` Mode Support
+2. Customizable style
+3. Support circular scrolling
+
 Preview
 ---
 ![Preview](resources/preview.gif)
@@ -15,6 +21,28 @@ Preview
 |Day|Night|
 |---|---|
 |![Day](resources/day.png)|![Night](resources/night.png)|
+
+Component
+---
+1. DatePicker
+
+    [DatePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
+
+    `year-month-day` or `year-month` picker
+
+    support `max` and `min` date limits
+
+2. WeekdayTimePicker
+
+    [WeekdayTimePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
+
+    `weekday-hour-minute` picker
+
+3. DayTimePicker
+
+    [DayTimePickerExampleActivity Usage](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+
+    `day-hour-minute` picker
 
 Download
 ---
