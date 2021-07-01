@@ -36,7 +36,7 @@ iOS风格的滚轮选择器
 
 3. DayTimePicker
 
-    [DayTimePickerExampleActivity 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+    [DayTimePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
 
     `日-小时-分钟` 选择器
 

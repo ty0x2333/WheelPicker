@@ -40,7 +40,7 @@ Component
 
 3. DayTimePicker
 
-    [DayTimePickerExampleActivity Usage](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+    [DayTimePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
 
     `day-hour-minute` picker
 
