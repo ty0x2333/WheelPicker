@@ -3,14 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.3703125" />
         <entry key="WheelPicker/src/main/res/drawable-night/text_wheel_highlight_bg.xml" value="0.4557291666666667" />
         <entry key="WheelPicker/src/main/res/drawable/debug_border.xml" value="0.6972222222222222" />
         <entry key="WheelPicker/src/main/res/drawable/text_wheel_highlight_bg.xml" value="0.4557291666666667" />
         <entry key="WheelPicker/src/main/res/drawable/wheel_action_sheet_bg.xml" value="0.5119791666666667" />
+        <entry key="WheelPicker/src/main/res/layout/date_picker_view.xml" value="0.4401041666666667" />
         <entry key="WheelPicker/src/main/res/layout/day_time_picker_content.xml" value="0.49583333333333335" />
         <entry key="WheelPicker/src/main/res/layout/day_time_picker_view.xml" value="0.3645833333333333" />
         <entry key="WheelPicker/src/main/res/layout/picker_action_sheet_content.xml" value="0.49583333333333335" />
+        <entry key="WheelPicker/src/main/res/layout/triple_picker_view.xml" value="0.35" />
         <entry key="WheelPicker/src/main/res/layout/wheel_picker_cell.xml" value="0.463768115942029" />
         <entry key="WheelPicker/src/main/res/layout/wheel_picker_item.xml" value="0.49583333333333335" />
         <entry key="WheelPicker/src/main/res/layout/wheel_picker_view.xml" value="0.463768115942029" />
@@ -26,6 +28,12 @@
         <entry key="app/src/main/res/layout/activity_weekday_time_picker.xml" value="0.4395833333333333" />
         <entry key="app/src/main/res/layout/circular_check_box.xml" value="0.49583333333333335" />
         <entry key="app/src/main/res/layout/custom_wheel_picker_item.xml" value="0.3385416666666667" />
+        <entry key="example/src/main/res/layout/activity_custom_wheel_picker.xml" value="0.35" />
+        <entry key="example/src/main/res/layout/activity_date_picker.xml" value="0.6947916666666667" />
+        <entry key="example/src/main/res/layout/activity_day_time_picker.xml" value="0.6947916666666667" />
+        <entry key="example/src/main/res/layout/activity_main.xml" value="0.6947916666666667" />
+        <entry key="example/src/main/res/layout/activity_weekday_time_picker.xml" value="0.35" />
+        <entry key="example/src/main/res/layout/custom_wheel_picker_item.xml" value="0.35" />
       </map>
     </option>
   </component>

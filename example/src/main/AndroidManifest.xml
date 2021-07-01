@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".DatePickerExampleActivity" />
         <activity android:name=".WeekdayTimePickerExampleActivity" />
         <activity android:name=".DayTimePickerExampleActivity" />
         <activity android:name=".CustomWheelPickerExampleActivity" />

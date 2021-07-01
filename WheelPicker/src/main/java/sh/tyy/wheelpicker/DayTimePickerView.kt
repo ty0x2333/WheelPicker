@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
+import sh.tyy.wheelpicker.core.TextWheelAdapter
+import sh.tyy.wheelpicker.core.TextWheelPickerView
 
 class DayTimePickerView @JvmOverloads constructor(
     context: Context,
@@ -62,7 +65,7 @@ class DayTimePickerView @JvmOverloads constructor(
     private val minuteAdapter = TextWheelAdapter()
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         dayPickerView = findViewById(R.id.left_picker)
         dayPickerView.setAdapter(dayAdapter)
         dayAdapter.values = (1..31).map {

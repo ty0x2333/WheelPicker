@@ -1,4 +1,4 @@
-package sh.tyy.wheelpicker
+package sh.tyy.wheelpicker.core
 
 import android.graphics.Rect
 import android.view.View

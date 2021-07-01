@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import sh.tyy.wheelpicker.BaseWheelPickerView
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.example.custom.CustomWheelPickerView
 
 class CustomWheelPickerExampleActivity : AppCompatActivity(), PickerExample {

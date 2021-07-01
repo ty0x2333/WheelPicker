@@ -1,4 +1,4 @@
-package sh.tyy.wheelpicker
+package sh.tyy.wheelpicker.core
 
 import android.content.Context
 import android.graphics.Rect
@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.PopupWindow
+import sh.tyy.wheelpicker.R
 
 abstract class WheelPickerActionSheet<Picker: View>(context: Context) {
     var pickerView: Picker? = null

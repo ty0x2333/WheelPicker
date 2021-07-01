@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import sh.tyy.wheelpicker.BaseWheelPickerView
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.example.R
 
 class CustomWheelViewHolder(itemView: View) :

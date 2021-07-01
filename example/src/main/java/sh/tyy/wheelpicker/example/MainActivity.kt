@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import sh.tyy.wheelpicker.BaseWheelPickerView
-import sh.tyy.wheelpicker.TextWheelAdapter
-import sh.tyy.wheelpicker.TextWheelPickerView
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
+import sh.tyy.wheelpicker.core.TextWheelAdapter
+import sh.tyy.wheelpicker.core.TextWheelPickerView
 
 class MainActivity : AppCompatActivity(), PickerExample {
     private lateinit var pickerView: TextWheelPickerView

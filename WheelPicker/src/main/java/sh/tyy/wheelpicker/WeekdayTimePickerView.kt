@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import sh.tyy.wheelpicker.core.BaseWheelPickerView
+import sh.tyy.wheelpicker.core.TextWheelAdapter
+import sh.tyy.wheelpicker.core.TextWheelPickerView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,7 +84,7 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     private val minuteAdapter = TextWheelAdapter()
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         weekdayPickerView = findViewById(R.id.left_picker)
         weekdayPickerView.setAdapter(weekdayAdapter)
 

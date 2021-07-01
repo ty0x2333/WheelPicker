@@ -15,6 +15,12 @@
         android:paddingVertical="40dp">
 
         <Button
+            android:id="@+id/date_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date Picker" />
+
+        <Button
             android:id="@+id/day_time_picker_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +36,7 @@
             android:id="@+id/custom_picker_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Custom" />
+            android:text="Custom Picker" />
 
         <View
             android:layout_width="match_parent"
@@ -68,7 +74,7 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="8dp">
 
-            <sh.tyy.wheelpicker.TextWheelPickerView
+            <sh.tyy.wheelpicker.core.TextWheelPickerView
                 android:id="@+id/picker_view"
                 android:layout_width="310dp"
                 android:layout_height="210dp" />

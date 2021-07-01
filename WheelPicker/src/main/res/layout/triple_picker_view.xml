@@ -13,21 +13,21 @@
         android:paddingHorizontal="58dp"
         tools:ignore="UselessParent">
 
-        <sh.tyy.wheelpicker.TextWheelPickerView
+        <sh.tyy.wheelpicker.core.TextWheelPickerView
             android:id="@+id/left_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:highlighting_visible="false" />
 
-        <sh.tyy.wheelpicker.TextWheelPickerView
+        <sh.tyy.wheelpicker.core.TextWheelPickerView
             android:id="@+id/mid_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:highlighting_visible="false" />
 
-        <sh.tyy.wheelpicker.TextWheelPickerView
+        <sh.tyy.wheelpicker.core.TextWheelPickerView
             android:id="@+id/right_picker"
             android:layout_width="0dp"
             android:layout_height="match_parent"

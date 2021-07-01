@@ -1,56 +1,22 @@
 package sh.tyy.wheelpicker
 
 import android.content.Context
-import android.graphics.Color
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.text.set
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
+import sh.tyy.wheelpicker.core.*
 import java.lang.ref.WeakReference
 import java.text.DateFormatSymbols
 import java.util.*
 
-open class DateWheelAdapter(
-    protected val valueEnabledProvider: WeakReference<ValueEnabledProvider>
-) :
-    BaseWheelPickerView.Adapter<TextWheelPickerView.Item, TextWheelViewHolder>() {
-    interface ValueEnabledProvider {
-        fun isEnabled(adapter: DateWheelAdapter, valueIndex: Int): Boolean
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextWheelViewHolder {
-        val view =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.wheel_picker_item, parent, false) as TextView
-        return TextWheelViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: TextWheelViewHolder, position: Int) {
-        val valueIndex = if (isCircular) position % values.count() else position
-        val value =
-            values.getOrNull(valueIndex) ?: return
-        val isEnabled = valueEnabledProvider.get()?.isEnabled(this, valueIndex) ?: true
-        holder.onBindData(
-            TextWheelPickerView.Item(
-                id = "$position",
-                text = value.text,
-                isEnabled = isEnabled
-            )
-        )
-    }
-}
-
 class YearWheelAdapter(
     valueEnabledProvider: WeakReference<ValueEnabledProvider>
 ) :
-    DateWheelAdapter(valueEnabledProvider) {
+    ItemEnableWheelAdapter(valueEnabledProvider) {
     override fun getItemCount(): Int {
         return Int.MAX_VALUE
     }
@@ -82,35 +48,41 @@ class DatePickerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener,
-    DateWheelAdapter.ValueEnabledProvider {
+) : TripleDependentPickerView(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener {
 
-    data class Data(
-        val year: Int,
-        val month: Int,
-        val day: Int
-    )
+    override val adapters: Triple<RecyclerView.Adapter<*>, RecyclerView.Adapter<*>, RecyclerView.Adapter<*>>
+        get() = Triple(yearAdapter, monthAdapter, dayAdapter)
 
-    private fun minDateData(): Data? {
+    override val currentData: TripleDependentData
+        get() = TripleDependentData(year, month, day)
+
+    override fun minData(): TripleDependentData? {
         if (minDate == null) {
             return null
         }
-        return Data(
-            year = minDateCalendar.get(Calendar.YEAR),
-            month = minDateCalendar.get(Calendar.MONTH),
-            day = minDateCalendar.get(Calendar.DAY_OF_MONTH)
+        return TripleDependentData(
+            minDateCalendar.get(Calendar.YEAR),
+            minDateCalendar.get(Calendar.MONTH),
+            minDateCalendar.get(Calendar.DAY_OF_MONTH)
         )
     }
 
-    private fun maxDateData(): Data? {
+    override fun maxData(): TripleDependentData? {
         if (maxDate == null) {
             return null
         }
-        return Data(
-            year = maxDateCalendar.get(Calendar.YEAR),
-            month = maxDateCalendar.get(Calendar.MONTH),
-            day = maxDateCalendar.get(Calendar.DAY_OF_MONTH)
+        return TripleDependentData(
+            maxDateCalendar.get(Calendar.YEAR),
+            maxDateCalendar.get(Calendar.MONTH),
+            maxDateCalendar.get(Calendar.DAY_OF_MONTH)
         )
+    }
+
+    override fun value(adapter: RecyclerView.Adapter<*>, valueIndex: Int): Int {
+        if (adapter == dayAdapter) {
+            return valueIndex + 1
+        }
+        return valueIndex
     }
 
     interface Listener {
@@ -138,7 +110,7 @@ class DatePickerView @JvmOverloads constructor(
         set(value) {
             val newValue =
                 if (value != null && maxDate != null) minOf(maxDate ?: value, value) else value
-            val oldData = minDateData()
+            val oldData = minData()
             if (field == newValue) {
                 return
             }
@@ -146,18 +118,18 @@ class DatePickerView @JvmOverloads constructor(
             newValue?.let {
                 minDateCalendar.time = it
             }
-            val newData = minDateData()
-            if (newValue != null) {
-                updateDateByMinDate(minDateCalendar)
+            val newData = minData()
+            minData()?.let {
+                updateCurrentDataByMinData(it)
             }
-            reloadPickerIfNeeded(oldData, newData)
+            reloadPickersIfNeeded(oldData, newData)
         }
 
     var maxDate: Date? = null
         set(value) {
             val newValue =
                 if (value != null && minDate != null) maxOf(minDate ?: value, value) else value
-            val oldData = maxDateData()
+            val oldData = maxData()
             if (field == newValue) {
                 return
             }
@@ -165,44 +137,28 @@ class DatePickerView @JvmOverloads constructor(
             newValue?.let {
                 maxDateCalendar.time = it
             }
-            val newData = maxDateData()
-            if (newValue != null) {
-                updateDateByMaxDate(maxDateCalendar)
+            val newData = maxData()
+            maxData()?.let {
+                updateCurrentDataByMaxData(it)
             }
-            reloadPickerIfNeeded(oldData, newData)
+            reloadPickersIfNeeded(oldData, newData)
         }
-
-    private fun reloadPickerIfNeeded(oldData: Data?, newData: Data?) {
-        if (oldData?.year != newData?.year) {
-            yearAdapter.notifyDataSetChanged()
-        }
-        if (year == newData?.year &&
-            (!(newData.year == oldData?.year && newData.month == oldData.month))
-        ) {
-            monthAdapter.notifyDataSetChanged()
-        }
-        if (year == newData?.year && month == newData.month &&
-            !(newData.year == oldData?.year && newData.month == oldData.month && newData.day == oldData.day)
-        ) {
-            dayAdapter.notifyDataSetChanged()
-        }
-    }
 
     var day: Int
         set(value) {
-            setDay(value, false)
+            setThird(value, false)
         }
         get() = dayPickerView.selectedIndex + 1
 
     var month: Int
         set(value) {
-            setMonth(value, false)
+            setSecond(value, false)
         }
         get() = monthPickerView.selectedIndex
 
     var year: Int
         set(value) {
-            setYear(value, false)
+            setFirst(value, false)
         }
         get() = yearPickerView.selectedIndex
 
@@ -215,32 +171,32 @@ class DatePickerView @JvmOverloads constructor(
         }
 
     private val yearAdapter = YearWheelAdapter(WeakReference(this))
-    private val monthAdapter = DateWheelAdapter(WeakReference(this))
-    private val dayAdapter = DateWheelAdapter(WeakReference(this))
+    private val monthAdapter = ItemEnableWheelAdapter(WeakReference(this))
+    private val dayAdapter = ItemEnableWheelAdapter(WeakReference(this))
 
-    private fun setYear(year: Int, animated: Boolean) {
-        if (this.year == year) {
+    override fun setFirst(value: Int, animated: Boolean) {
+        if (this.year == value) {
             return
         }
-        yearPickerView.setSelectedIndex(year, animated)
+        yearPickerView.setSelectedIndex(value, animated)
     }
 
-    private fun setMonth(month: Int, animated: Boolean) {
-        if (this.month == month) {
+    override fun setSecond(value: Int, animated: Boolean) {
+        if (this.month == value) {
             return
         }
-        monthPickerView.setSelectedIndex(month, animated)
+        monthPickerView.setSelectedIndex(value, animated)
     }
 
-    private fun setDay(day: Int, animated: Boolean) {
-        if (this.day == day) {
+    override fun setThird(value: Int, animated: Boolean) {
+        if (this.day == value) {
             return
         }
-        dayPickerView.setSelectedIndex(day - 1, animated)
+        dayPickerView.setSelectedIndex(value - 1, animated)
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.day_time_picker_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         dayPickerView = findViewById(R.id.right_picker)
         dayPickerView.setAdapter(dayAdapter)
         monthPickerView = findViewById(R.id.mid_picker)
@@ -293,89 +249,19 @@ class DatePickerView @JvmOverloads constructor(
         return true
     }
 
-    private fun updateDateIfNeeded(): Boolean {
-        minDate?.let {
-            if (updateDateByMinDate(minDateCalendar)) {
-                return true
-            }
-        }
-        maxDate?.let {
-            if (updateDateByMaxDate(maxDateCalendar)) {
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun updateDateByMinDate(calendar: Calendar): Boolean {
-        var changed = false
-        val minYear = calendar.get(Calendar.YEAR)
-        if (year > minYear) {
-            return changed
-        }
-        if (year < minYear) {
-            setYear(minYear, true)
-            changed = true
-        }
-
-        val minMonth = calendar.get(Calendar.MONTH)
-        if (month > minMonth) {
-            return changed
-        }
-        if (month < minMonth) {
-            setMonth(minMonth, true)
-            changed = true
-        }
-
-        val minDay = calendar.get(Calendar.DAY_OF_MONTH)
-        if (day < minDay) {
-            setDay(minDay, true)
-            changed = true
-        }
-        return changed
-    }
-
-    private fun updateDateByMaxDate(calendar: Calendar): Boolean {
-        var changed = false
-        val maxYear = calendar.get(Calendar.YEAR)
-        if (year < maxYear) {
-            return changed
-        }
-        if (year > maxYear) {
-            setYear(maxYear, true)
-            changed = true
-        }
-
-        val maxMonth = calendar.get(Calendar.MONTH)
-        if (month < maxMonth) {
-            return changed
-        }
-        if (month > maxMonth) {
-            setMonth(maxMonth, true)
-            changed = true
-        }
-
-        val maxDay = calendar.get(Calendar.DAY_OF_MONTH)
-        if (day > maxDay) {
-            setDay(maxDay, true)
-            changed = true
-        }
-        return changed
-    }
-
-    private fun dateIsValid(year: Int, month: Int, day: Int): Boolean {
-        if (year == NO_POSITION && month == NO_POSITION && day == NO_POSITION) {
+    private fun dateIsValid(data: TripleDependentData): Boolean {
+        if (data.first == NO_POSITION && data.second == NO_POSITION && data.third == NO_POSITION) {
             return false
         }
         val format = "%04d%02d%02d"
-        val selectedDateString = format.format(year, month, day)
-        minDateData()?.let {
-            if (selectedDateString < format.format(it.year, it.month, it.day)) {
+        val selectedDateString = format.format(data.first, data.second, data.third)
+        minData()?.let {
+            if (selectedDateString < format.format(it.first, it.second, it.third)) {
                 return false
             }
         }
-        maxDateData()?.let {
-            if (selectedDateString > format.format(it.year, it.month, it.day)) {
+        maxData()?.let {
+            if (selectedDateString > format.format(it.first, it.second, it.third)) {
                 return false
             }
         }
@@ -413,7 +299,7 @@ class DatePickerView @JvmOverloads constructor(
                 }
             }
         }
-        if (!dateIsValid(year, month, day)) {
+        if (!dateIsValid(currentData)) {
             return
         }
         listener?.didSelectData(year, month, day)
@@ -421,65 +307,8 @@ class DatePickerView @JvmOverloads constructor(
 
     override fun onScrollStateChanged(state: Int) {
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            updateDateIfNeeded()
+            updateCurrentDataByDataRangeIfNeeded()
         }
-    }
-    // endregion
-
-    // region DateWheelAdapter.ValueEnabledProvider
-    override fun isEnabled(adapter: DateWheelAdapter, valueIndex: Int): Boolean {
-        when (adapter) {
-            yearAdapter -> {
-                minDateData()?.year?.let {
-                    if (valueIndex < it) {
-                        return false
-                    }
-                }
-                maxDateData()?.year?.let {
-                    if (valueIndex > it) {
-                        return false
-                    }
-                }
-            }
-            monthAdapter -> {
-                minDateData()?.let {
-                    if (year > it.year) {
-                        return true
-                    }
-                    if (valueIndex < it.month) {
-                        return false
-                    }
-                }
-                maxDateData()?.let {
-                    if (year < it.year) {
-                        return true
-                    }
-                    if (valueIndex > it.month) {
-                        return false
-                    }
-                }
-            }
-            dayAdapter -> {
-                val day = valueIndex + 1
-                minDateData()?.let {
-                    if (year > it.year || month > it.month) {
-                        return true
-                    }
-                    if (day < it.day) {
-                        return false
-                    }
-                }
-                maxDateData()?.let {
-                    if (year < it.year || month < it.month) {
-                        return true
-                    }
-                    if (day > it.day) {
-                        return false
-                    }
-                }
-            }
-        }
-        return true
     }
     // endregion
 }

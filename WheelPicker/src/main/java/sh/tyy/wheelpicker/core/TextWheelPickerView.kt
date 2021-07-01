@@ -1,10 +1,11 @@
-package sh.tyy.wheelpicker
+package sh.tyy.wheelpicker.core
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import sh.tyy.wheelpicker.R
 
 class TextWheelViewHolder(private val textView: TextView) :
     BaseWheelPickerView.ViewHolder<TextWheelPickerView.Item>(textView) {
