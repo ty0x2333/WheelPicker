@@ -5,7 +5,6 @@ import android.graphics.Camera
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.util.AttributeSet
-import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
