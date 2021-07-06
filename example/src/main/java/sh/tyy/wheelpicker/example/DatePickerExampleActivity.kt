@@ -22,6 +22,8 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
         get() = findViewById(R.id.circular_check_box)
     override val selectedItemTextView: TextView
         get() = findViewById(R.id.selected_text_view)
+    override val vibrationFeedbackCheckBox: CheckBox
+        get() = findViewById(R.id.vibration_feedback_check_box)
 
     private var formatter = SimpleDateFormat("yyyy-MM-dd")
     private val calendar = Calendar.getInstance()
@@ -40,6 +42,11 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
         circularCheckBox.setOnCheckedChangeListener { _, isChecked ->
             datePickerView.isCircular = isChecked
         }
+        vibrationFeedbackCheckBox.isChecked = datePickerView.isHapticFeedbackEnabled
+        vibrationFeedbackCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            datePickerView.isHapticFeedbackEnabled = isChecked
+        }
+
 
         datePickerView.setWheelListener(object : DatePickerView.Listener {
             override fun didSelectData(year: Int, month: Int, day: Int) {

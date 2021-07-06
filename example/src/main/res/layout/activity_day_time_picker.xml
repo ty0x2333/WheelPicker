@@ -10,13 +10,7 @@
     android:paddingVertical="40dp"
     tools:context=".DayTimePickerExampleActivity">
 
-    <CheckBox
-        android:id="@+id/circular_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:text="isCircular" />
+    <include layout="@layout/picker_common_settings" />
 
     <TextView
         android:layout_width="wrap_content"

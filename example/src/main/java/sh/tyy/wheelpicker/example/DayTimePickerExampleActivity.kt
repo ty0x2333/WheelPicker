@@ -17,6 +17,8 @@ class DayTimePickerExampleActivity : AppCompatActivity(), PickerExample {
     private lateinit var dayTimePickerView: DayTimePickerView
     override val circularCheckBox: CheckBox
         get() = findViewById(R.id.circular_check_box)
+    override val vibrationFeedbackCheckBox: CheckBox
+        get() = findViewById(R.id.vibration_feedback_check_box)
     override val selectedItemTextView: TextView
         get() = findViewById(R.id.selected_text_view)
 
@@ -30,6 +32,10 @@ class DayTimePickerExampleActivity : AppCompatActivity(), PickerExample {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         dayTimePickerView = findViewById(R.id.day_time_picker_view)
+        vibrationFeedbackCheckBox.isChecked = dayTimePickerView.isHapticFeedbackEnabled
+        vibrationFeedbackCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            dayTimePickerView.isHapticFeedbackEnabled = isChecked
+        }
 
         circularCheckBox.setOnCheckedChangeListener { _, isChecked ->
             dayTimePickerView.isCircular = isChecked

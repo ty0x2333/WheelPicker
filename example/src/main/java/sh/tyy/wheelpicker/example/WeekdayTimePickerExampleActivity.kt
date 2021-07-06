@@ -21,6 +21,8 @@ class WeekdayTimePickerExampleActivity : AppCompatActivity(), PickerExample {
         get() = findViewById(R.id.circular_check_box)
     override val selectedItemTextView: TextView
         get() = findViewById(R.id.selected_text_view)
+    override val vibrationFeedbackCheckBox: CheckBox
+        get() = findViewById(R.id.vibration_feedback_check_box)
 
     private val formatter = SimpleDateFormat("EEE HH:mm")
     private val calendar = Calendar.getInstance()
@@ -35,6 +37,11 @@ class WeekdayTimePickerExampleActivity : AppCompatActivity(), PickerExample {
 
         circularCheckBox.setOnCheckedChangeListener { _, isChecked ->
             weekdayTimePickerView.isCircular = isChecked
+        }
+
+        vibrationFeedbackCheckBox.isChecked = weekdayTimePickerView.isHapticFeedbackEnabled
+        vibrationFeedbackCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            weekdayTimePickerView.isHapticFeedbackEnabled = isChecked
         }
 
         weekdayTimePickerView.setWheelListener(object : WeekdayTimePickerView.Listener {

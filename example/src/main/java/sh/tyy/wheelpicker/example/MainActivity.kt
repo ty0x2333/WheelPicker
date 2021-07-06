@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity(), PickerExample {
     private lateinit var pickerView: TextWheelPickerView
     override lateinit var selectedItemTextView: TextView
     override lateinit var circularCheckBox: CheckBox
+    override lateinit var vibrationFeedbackCheckBox: CheckBox
 
 
     private val simpleAdapter = TextWheelAdapter()
@@ -35,6 +36,12 @@ class MainActivity : AppCompatActivity(), PickerExample {
 
         circularCheckBox.setOnCheckedChangeListener { _, isChecked ->
             pickerView.isCircular = isChecked
+        }
+
+        vibrationFeedbackCheckBox = findViewById(R.id.vibration_feedback_check_box)
+        vibrationFeedbackCheckBox.isChecked = pickerView.isHapticFeedbackEnabled
+        vibrationFeedbackCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            pickerView.isHapticFeedbackEnabled = isChecked
         }
 
         val dayTimePickerButton: Button = findViewById(R.id.day_time_picker_button)

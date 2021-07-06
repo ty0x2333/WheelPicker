@@ -16,6 +16,8 @@ class CustomWheelPickerExampleActivity : AppCompatActivity(), PickerExample {
         get() = findViewById(R.id.circular_check_box)
     override val selectedItemTextView: TextView
         get() = findViewById(R.id.selected_text_view)
+    override val vibrationFeedbackCheckBox: CheckBox
+        get() = findViewById(R.id.vibration_feedback_check_box)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,11 @@ class CustomWheelPickerExampleActivity : AppCompatActivity(), PickerExample {
 
         circularCheckBox.setOnCheckedChangeListener { _, isChecked ->
             pickerView.isCircular = isChecked
+        }
+
+        vibrationFeedbackCheckBox.isChecked = pickerView.isHapticFeedbackEnabled
+        vibrationFeedbackCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            pickerView.isHapticFeedbackEnabled = isChecked
         }
 
         pickerView.setWheelListener(object : BaseWheelPickerView.WheelPickerViewListener {
