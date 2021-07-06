@@ -178,7 +178,6 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         if (hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
             hapticFeedbackLastTriggerPosition = visibleCenterItemPosition
             if (isHapticFeedbackEnabled && !ignoreHapticFeedback) {
-                Log.i("Hello", "onScrolled with feedback")
                 performHapticFeedback(
                     HapticFeedbackConstants.KEYBOARD_TAP,
                     HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
