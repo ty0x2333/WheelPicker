@@ -64,6 +64,13 @@ class DayTimePickerView @JvmOverloads constructor(
     private val hourAdapter = TextWheelAdapter()
     private val minuteAdapter = TextWheelAdapter()
 
+    override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
+        super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
+        dayPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        hourPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        minutePickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+    }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         dayPickerView = findViewById(R.id.left_picker)

@@ -215,6 +215,13 @@ class DatePickerView @JvmOverloads constructor(
         dayPickerView.setSelectedIndex(value - 1, animated)
     }
 
+    override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
+        super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
+        yearPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        monthPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        dayPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+    }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         dayPickerView = findViewById(R.id.right_picker)

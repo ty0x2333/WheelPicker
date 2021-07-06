@@ -31,9 +31,10 @@
         <entry key="example/src/main/res/layout/activity_custom_wheel_picker.xml" value="0.35" />
         <entry key="example/src/main/res/layout/activity_date_picker.xml" value="0.6947916666666667" />
         <entry key="example/src/main/res/layout/activity_day_time_picker.xml" value="0.6947916666666667" />
-        <entry key="example/src/main/res/layout/activity_main.xml" value="0.6947916666666667" />
+        <entry key="example/src/main/res/layout/activity_main.xml" value="0.6645718774548312" />
         <entry key="example/src/main/res/layout/activity_weekday_time_picker.xml" value="0.35" />
         <entry key="example/src/main/res/layout/custom_wheel_picker_item.xml" value="0.35" />
+        <entry key="example/src/main/res/layout/picker_common_settings.xml" value="0.440625" />
       </map>
     </option>
   </component>

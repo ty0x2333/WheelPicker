@@ -83,6 +83,13 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     private val hourAdapter = TextWheelAdapter()
     private val minuteAdapter = TextWheelAdapter()
 
+    override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
+        super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
+        weekdayPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        hourPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+        minutePickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
+    }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
         weekdayPickerView = findViewById(R.id.left_picker)

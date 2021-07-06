@@ -81,7 +81,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             index
         }
         if (animated) {
-            recyclerView.smoothScrollToCenterPosition(dstPosition)
+            recyclerView.smoothScrollToCenterPosition(dstPosition, ignoreHapticFeedback = true)
         } else {
             recyclerView.scrollToCenterPosition(dstPosition, true)
         }

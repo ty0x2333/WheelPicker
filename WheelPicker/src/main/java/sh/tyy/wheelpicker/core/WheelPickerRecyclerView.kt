@@ -5,6 +5,7 @@ import android.graphics.Camera
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.util.AttributeSet
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -88,7 +89,14 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         smoothScrollToCenterPosition(position)
     }
 
-    fun smoothScrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
+    private fun smoothScrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
+        val listener: OnScrollListener = object: OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                recyclerView.removeOnScrollListener(this)
+                refreshCurrentPosition()
+                completion?.invoke()
+            }
+        }
         super.smoothScrollToPosition(position)
         post {
             do {
@@ -100,13 +108,28 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
                 if (snapDistance[0] != 0 || snapDistance[1] != 0) {
                     smoothScrollBy(snapDistance[0], snapDistance[1])
                 }
-                refreshCurrentPosition()
             } while (false)
-            completion?.invoke()
+            addOnScrollListener(listener)
         }
     }
 
-    fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
+    fun smoothScrollToCenterPosition(
+        position: Int,
+        ignoreHapticFeedback: Boolean,
+        completion: (() -> Unit)? = null
+    ) {
+        if (ignoreHapticFeedback && isHapticFeedbackEnabled) {
+            this.ignoreHapticFeedback = true
+            smoothScrollToCenterPosition(position) {
+                this.ignoreHapticFeedback = false
+                completion?.invoke()
+            }
+        } else {
+            smoothScrollToCenterPosition(position, completion)
+        }
+    }
+
+    private fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
         super.scrollToPosition(position)
         post {
             do {
@@ -155,6 +178,7 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         if (hapticFeedbackLastTriggerPosition != visibleCenterItemPosition) {
             hapticFeedbackLastTriggerPosition = visibleCenterItemPosition
             if (isHapticFeedbackEnabled && !ignoreHapticFeedback) {
+                Log.i("Hello", "onScrolled with feedback")
                 performHapticFeedback(
                     HapticFeedbackConstants.KEYBOARD_TAP,
                     HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
