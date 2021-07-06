@@ -13,6 +13,7 @@ Feature
 1. `Day` / `Night` Mode Support
 2. Customizable style
 3. Support circular scrolling
+4. Support vibration feedback
 
 Preview
 ---
@@ -50,7 +51,7 @@ Download
 Download the latest AAR from [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) via Gradle:
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.0'
+implementation 'sh.tyy:wheelpicker:0.2.1'
 ```
 
 Custom

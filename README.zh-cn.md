@@ -13,6 +13,7 @@ iOS风格的滚轮选择器
 1. 支持 `Day` / `Night` 模式
 2. 自定义样式
 3. 支持循环滚动
+4. 支持震动反馈
 
 预览
 ---
@@ -46,7 +47,7 @@ iOS风格的滚轮选择器
 通过 Gradle 从 [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) 下载最新的 AAR :
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.0'
+implementation 'sh.tyy:wheelpicker:0.2.1'
 ```
 
 |亮色模式|暗色模式|
