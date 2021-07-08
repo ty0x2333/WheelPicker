@@ -19,10 +19,6 @@ Preview
 ---
 ![Preview](resources/preview.gif)
 
-|Day|Night|
-|---|---|
-|![Day](resources/day.png)|![Night](resources/night.png)|
-
 Component
 ---
 1. DatePicker
@@ -33,11 +29,19 @@ Component
 
     support `max` and `min` date limits
 
+    |Day|Night|
+    |---|---|
+    |![Day](resources/datepicker_day.png)|![Night](resources/datepicker_night.png)|
+
 2. WeekdayTimePicker
 
     [WeekdayTimePicker Usage](example/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
 
     `weekday-hour-minute` picker
+
+    |Day|Night|
+    |---|---|
+    |![Day](resources/weektimepicker_day.png)|![Night](resources/weektimepicker_night.png)|
 
 3. DayTimePicker
 
@@ -51,7 +55,7 @@ Download
 Download the latest AAR from [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) via Gradle:
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.2'
+implementation 'sh.tyy:wheelpicker:0.3.0'
 ```
 
 Custom

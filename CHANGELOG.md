@@ -1,6 +1,15 @@
 Change Log
 ===
 
+0.3.0
+---
+#### Enhancement
+1. Use shorter month descriptions in DatePicker
+
+#### Bug Fix
+1. Fix the style bug of DatePicker that the date is disabled when modifying the month if the year is unchanged.
+2. Fix the bug of scrolling completion callback of WheelPickerRecyclerView.
+
 0.2.2
 ---
 #### Bug Fix

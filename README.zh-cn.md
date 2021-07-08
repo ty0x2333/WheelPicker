@@ -29,11 +29,19 @@ iOS风格的滚轮选择器
 
     支持 `最大` 和 `最小` 时间限制
 
+    |亮色模式|暗色模式|
+    |---|---|
+    |![Day](resources/datepicker_day_zh.png)|![Night](resources/datepicker_night_zh.png)|
+
 2. WeekdayTimePicker
 
     [WeekdayTimePicker 使用方法](example/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
 
     `周几-小时-分钟` 选择器
+
+    |亮色模式|暗色模式|
+    |---|---|
+    |![Day](resources/weektimepicker_day.png)|![Night](resources/weektimepicker_night.png)|
 
 3. DayTimePicker
 
@@ -47,12 +55,8 @@ iOS风格的滚轮选择器
 通过 Gradle 从 [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) 下载最新的 AAR :
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.2'
+implementation 'sh.tyy:wheelpicker:0.3.0'
 ```
-
-|亮色模式|暗色模式|
-|---|---|
-|![Day](resources/day.png)|![Night](resources/night.png)|
 
 自定义
 ---
