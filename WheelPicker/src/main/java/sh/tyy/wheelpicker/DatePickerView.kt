@@ -3,6 +3,7 @@ package sh.tyy.wheelpicker
 import android.content.Context
 import android.text.SpannableString
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -318,12 +319,12 @@ class DatePickerView @JvmOverloads constructor(
                 if (picker == yearPickerView) {
                     monthAdapter.notifyDataSetChanged()
                 }
-                val isCurrentMonthOnEdge =
-                    minDateCalendar.get(Calendar.MONTH) == month || maxDateCalendar.get(Calendar.MONTH) == month
-                if (this.isCurrentMonthOnEdge != isCurrentMonthOnEdge && !dayPickerUpdated) {
-                    this.isCurrentMonthOnEdge = isCurrentMonthOnEdge
-                    dayAdapter.notifyDataSetChanged()
-                }
+            }
+            val isCurrentMonthOnEdge =
+                minDateCalendar.get(Calendar.MONTH) == month || maxDateCalendar.get(Calendar.MONTH) == month
+            if (this.isCurrentMonthOnEdge != isCurrentMonthOnEdge && !dayPickerUpdated) {
+                this.isCurrentMonthOnEdge = isCurrentMonthOnEdge
+                dayAdapter.notifyDataSetChanged()
             }
         }
         if (!dateIsValid(currentData)) {
