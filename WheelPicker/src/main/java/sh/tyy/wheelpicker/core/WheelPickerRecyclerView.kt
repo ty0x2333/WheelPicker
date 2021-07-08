@@ -5,6 +5,7 @@ import android.graphics.Camera
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.util.AttributeSet
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -91,6 +92,9 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
     private fun smoothScrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
         val listener: OnScrollListener = object: OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState != SCROLL_STATE_IDLE) {
+                    return
+                }
                 recyclerView.removeOnScrollListener(this)
                 refreshCurrentPosition()
                 completion?.invoke()
@@ -105,10 +109,12 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
                 val snapDistance =
                     snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: break
                 if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                    addOnScrollListener(listener)
                     smoothScrollBy(snapDistance[0], snapDistance[1])
+                    return@post
                 }
+                completion?.invoke()
             } while (false)
-            addOnScrollListener(listener)
         }
     }
 
@@ -140,9 +146,11 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
                 if (snapDistance[0] != 0 || snapDistance[1] != 0) {
                     scrollBy(snapDistance[0], snapDistance[1])
                 }
-                refreshCurrentPosition()
             } while (false)
-            completion?.invoke()
+            post {
+                refreshCurrentPosition()
+                completion?.invoke()
+            }
         }
     }
 
