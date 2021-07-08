@@ -140,7 +140,7 @@ class DatePickerView @JvmOverloads constructor(
             }
             val newData = minData()
             minData()?.let {
-                updateCurrentDataByMinData(it)
+                updateCurrentDataByMinData(it, false)
             }
             reloadPickersIfNeeded(oldData, newData)
         }
@@ -159,7 +159,7 @@ class DatePickerView @JvmOverloads constructor(
             }
             val newData = maxData()
             maxData()?.let {
-                updateCurrentDataByMaxData(it)
+                updateCurrentDataByMaxData(it, false)
             }
             reloadPickersIfNeeded(oldData, newData)
         }
@@ -334,7 +334,7 @@ class DatePickerView @JvmOverloads constructor(
 
     override fun onScrollStateChanged(state: Int) {
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            updateCurrentDataByDataRangeIfNeeded()
+            updateCurrentDataByDataRangeIfNeeded(true)
         }
     }
     // endregion

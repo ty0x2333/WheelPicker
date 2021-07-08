@@ -93,28 +93,28 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
 
     protected abstract fun setThird(value: Int, animated: Boolean)
 
-    protected fun updateCurrentDataByDataRangeIfNeeded(): Boolean {
+    protected fun updateCurrentDataByDataRangeIfNeeded(animated: Boolean): Boolean {
         minData()?.let {
-            if (updateCurrentDataByMinData(it)) {
+            if (updateCurrentDataByMinData(it, animated)) {
                 return true
             }
         }
         maxData()?.let {
-            if (updateCurrentDataByMaxData(it)) {
+            if (updateCurrentDataByMaxData(it, animated)) {
                 return true
             }
         }
         return false
     }
 
-    protected fun updateCurrentDataByMinData(minData: TripleDependentData): Boolean {
+    protected fun updateCurrentDataByMinData(minData: TripleDependentData, animated: Boolean): Boolean {
         var changed = false
         val current = currentData
         if (current.first > minData.first) {
             return changed
         }
         if (current.first < minData.first) {
-            setFirst(minData.first, true)
+            setFirst(minData.first, animated)
             changed = true
         }
 
@@ -122,25 +122,25 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
             return changed
         }
         if (current.second < minData.second) {
-            setSecond(minData.second, true)
+            setSecond(minData.second, animated)
             changed = true
         }
 
         if (current.third < minData.third) {
-            setThird(minData.third, true)
+            setThird(minData.third, animated)
             changed = true
         }
         return changed
     }
 
-    protected fun updateCurrentDataByMaxData(maxData: TripleDependentData): Boolean {
+    protected fun updateCurrentDataByMaxData(maxData: TripleDependentData, animated: Boolean): Boolean {
         var changed = false
         val current = currentData
         if (current.first < maxData.first) {
             return changed
         }
         if (current.first > maxData.first) {
-            setFirst(maxData.first, true)
+            setFirst(maxData.first, animated)
             changed = true
         }
 
@@ -148,12 +148,12 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
             return changed
         }
         if (current.second > maxData.second) {
-            setSecond(maxData.second, true)
+            setSecond(maxData.second, animated)
             changed = true
         }
 
         if (current.third > maxData.third) {
-            setThird(maxData.third, true)
+            setThird(maxData.third, animated)
             changed = true
         }
         return changed
