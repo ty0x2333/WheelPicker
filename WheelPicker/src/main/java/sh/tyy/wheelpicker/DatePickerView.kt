@@ -231,7 +231,7 @@ class DatePickerView @JvmOverloads constructor(
         monthAdapter.values = (0 until 12).map {
             TextWheelPickerView.Item(
                 "$it",
-                DateFormatSymbols.getInstance().months[it]
+                DateFormatSymbols.getInstance().shortMonths[it]
             )
         }
         yearPickerView = findViewById(R.id.left_picker)
