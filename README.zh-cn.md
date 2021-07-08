@@ -23,7 +23,7 @@ iOS风格的滚轮选择器
 ---
 1. DatePicker
 
-    [DatePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
+    [DatePicker 使用方法](example/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
 
     `年-月-日` 或 `年-月` 选择器
 
@@ -31,13 +31,13 @@ iOS风格的滚轮选择器
 
 2. WeekdayTimePicker
 
-    [WeekdayTimePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
+    [WeekdayTimePicker 使用方法](example/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
 
     `周几-小时-分钟` 选择器
 
 3. DayTimePicker
 
-    [DayTimePicker 使用方法](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+    [DayTimePicker 使用方法](example/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
 
     `日-小时-分钟` 选择器
 

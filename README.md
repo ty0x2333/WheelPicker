@@ -27,7 +27,7 @@ Component
 ---
 1. DatePicker
 
-    [DatePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
+    [DatePicker Usage](example/src/main/java/sh/tyy/wheelpicker/example/DatePickerExampleActivity.kt)
 
     `year-month-day` or `year-month` picker
 
@@ -35,13 +35,13 @@ Component
 
 2. WeekdayTimePicker
 
-    [WeekdayTimePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
+    [WeekdayTimePicker Usage](example/src/main/java/sh/tyy/wheelpicker/example/WeekdayTimePickerExampleActivity.kt)
 
     `weekday-hour-minute` picker
 
 3. DayTimePicker
 
-    [DayTimePicker Usage](app/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
+    [DayTimePicker Usage](example/src/main/java/sh/tyy/wheelpicker/example/DayTimePickerExampleActivity.kt)
 
     `day-hour-minute` picker
 
