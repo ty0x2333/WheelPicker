@@ -51,7 +51,7 @@ Download
 Download the latest AAR from [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) via Gradle:
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.1'
+implementation 'sh.tyy:wheelpicker:0.2.2'
 ```
 
 Custom

@@ -47,7 +47,7 @@ iOS风格的滚轮选择器
 通过 Gradle 从 [Maven Central](https://search.maven.org/search?q=g:%20sh.tyy%20a:%20wheelpicker) 下载最新的 AAR :
 
 ```gradle
-implementation 'sh.tyy:wheelpicker:0.2.1'
+implementation 'sh.tyy:wheelpicker:0.2.2'
 ```
 
 |亮色模式|暗色模式|
