@@ -6,8 +6,8 @@ plugins {
 def libraryGroupId = 'sh.tyy'
 //def libraryGroupId = 'com.github.ty0x2333'
 def libraryArtifactId = 'wheelpicker'
-def libraryVersionCode = 4
-def libraryVersion = '0.2.1'
+def libraryVersionCode = 5
+def libraryVersion = '0.2.2'
 
 android {
     compileSdk 30
