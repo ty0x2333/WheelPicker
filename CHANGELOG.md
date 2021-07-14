@@ -1,6 +1,11 @@
 Change Log
 ===
 
+0.3.1
+---
+#### Bug Fix
+1. Fix the UI bug when the date picker is set continuously.
+
 0.3.0
 ---
 #### Enhancement
