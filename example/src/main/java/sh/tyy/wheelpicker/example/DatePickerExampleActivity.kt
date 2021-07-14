@@ -57,9 +57,7 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
         val actionSheetButton: Button = findViewById(R.id.action_sheet_button)
         actionSheetButton.setOnClickListener {
             showPicker { year, month, day ->
-                datePickerView.year = year
-                datePickerView.month = month
-                datePickerView.day = day
+                datePickerView.setDate(year, month, day)
             }
         }
 
@@ -167,14 +165,16 @@ class DatePickerExampleActivity : AppCompatActivity(), PickerExample {
         }
     }
 
-    private fun showPicker(completion: (year: Int, month: Int, day: Int) -> Unit) {
+    private fun showPicker(minDate: Date? = null, maxDate: Date? = null, completion: (year: Int, month: Int, day: Int) -> Unit) {
         val picker = DatePicker(this)
         picker.show(window)
         picker.pickerView?.mode = datePickerView.mode
         picker.pickerView?.apply {
-            year = datePickerView.year
-            month = datePickerView.month
-            day = datePickerView.day
+            this.minDate = minDate
+            this.maxDate = minDate
+            post {
+                setDate(datePickerView.year, datePickerView.month, datePickerView.day)
+            }
         }
         picker.setOnClickOkButtonListener {
             val pickerView = picker.pickerView ?: return@setOnClickOkButtonListener
