@@ -74,16 +74,24 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
             }
         }
 
-    fun setSelectedIndex(index: Int, animated: Boolean) {
+    fun setSelectedIndex(index: Int, animated: Boolean, completion: (() -> Unit)? = null) {
         val dstPosition: Int = if (isCircular) {
             index - selectedIndex + recyclerView.currentPosition
         } else {
             index
         }
         if (animated) {
-            recyclerView.smoothScrollToCenterPosition(dstPosition, ignoreHapticFeedback = true)
+            recyclerView.smoothScrollToCenterPosition(
+                dstPosition,
+                ignoreHapticFeedback = true,
+                completion = completion
+            )
         } else {
-            recyclerView.scrollToCenterPosition(dstPosition, ignoreHapticFeedback = true)
+            recyclerView.scrollToCenterPosition(
+                dstPosition,
+                ignoreHapticFeedback = true,
+                completion = completion
+            )
         }
     }
 

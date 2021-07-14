@@ -75,15 +75,27 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
         if (oldData?.first != newData?.first) {
             adapters.first.notifyDataSetChanged()
         }
-        adapters.second.notifyDataSetChanged()
-        adapters.third.notifyDataSetChanged()
+        val current = currentData
+        if (current.first == newData?.first &&
+            (!(newData.first == oldData?.first && newData.second == oldData.second))
+        ) {
+            adapters.second.notifyDataSetChanged()
+        }
+        if (current.first == newData?.first && current.second == newData.second && newData != oldData
+        ) {
+            adapters.third.notifyDataSetChanged()
+        }
     }
 
-    protected abstract fun setFirst(value: Int, animated: Boolean)
+    protected abstract fun setFirst(value: Int, animated: Boolean, completion: (() -> Unit)?)
 
-    protected abstract fun setSecond(value: Int, animated: Boolean)
+    protected abstract fun setSecond(
+        value: Int,
+        animated: Boolean,
+        completion: (() -> Unit)?
+    )
 
-    protected abstract fun setThird(value: Int, animated: Boolean)
+    protected abstract fun setThird(value: Int, animated: Boolean, completion: (() -> Unit)?)
 
     protected fun updateCurrentDataByDataRangeIfNeeded(animated: Boolean): Boolean {
         minData()?.let {
@@ -99,14 +111,17 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
         return false
     }
 
-    protected fun updateCurrentDataByMinData(minData: TripleDependentData, animated: Boolean): Boolean {
+    protected fun updateCurrentDataByMinData(
+        minData: TripleDependentData,
+        animated: Boolean
+    ): Boolean {
         var changed = false
         val current = currentData
         if (current.first > minData.first) {
             return changed
         }
         if (current.first < minData.first) {
-            setFirst(minData.first, animated)
+            setFirst(minData.first, animated, null)
             changed = true
         }
 
@@ -114,25 +129,28 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
             return changed
         }
         if (current.second < minData.second) {
-            setSecond(minData.second, animated)
+            setSecond(minData.second, animated, null)
             changed = true
         }
 
         if (current.third < minData.third) {
-            setThird(minData.third, animated)
+            setThird(minData.third, animated, null)
             changed = true
         }
         return changed
     }
 
-    protected fun updateCurrentDataByMaxData(maxData: TripleDependentData, animated: Boolean): Boolean {
+    protected fun updateCurrentDataByMaxData(
+        maxData: TripleDependentData,
+        animated: Boolean
+    ): Boolean {
         var changed = false
         val current = currentData
         if (current.first < maxData.first) {
             return changed
         }
         if (current.first > maxData.first) {
-            setFirst(maxData.first, animated)
+            setFirst(maxData.first, animated, null)
             changed = true
         }
 
@@ -140,12 +158,12 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
             return changed
         }
         if (current.second > maxData.second) {
-            setSecond(maxData.second, animated)
+            setSecond(maxData.second, animated, null)
             changed = true
         }
 
         if (current.third > maxData.third) {
-            setThird(maxData.third, animated)
+            setThird(maxData.third, animated, null)
             changed = true
         }
         return changed

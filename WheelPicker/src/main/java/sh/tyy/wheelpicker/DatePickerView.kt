@@ -3,6 +3,7 @@ package sh.tyy.wheelpicker
 import android.content.Context
 import android.text.SpannableString
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -67,7 +68,7 @@ class DatePickerView @JvmOverloads constructor(
                 Mode.YEAR_MONTH_DAY -> dayPickerView.visibility = View.VISIBLE
                 Mode.YEAR_MONTH -> {
                     dayPickerView.visibility = View.GONE
-                    day = 1
+                    setThird(1, false, null)
                 }
             }
         }
@@ -166,23 +167,22 @@ class DatePickerView @JvmOverloads constructor(
             reloadPickersIfNeeded(oldData, newData)
         }
 
-    var day: Int
-        set(value) {
-            setThird(value, false)
-        }
+    val day: Int
         get() = dayPickerView.selectedIndex + 1
 
-    var month: Int
-        set(value) {
-            setSecond(value, false)
-        }
+    val month: Int
         get() = monthPickerView.selectedIndex
 
-    var year: Int
-        set(value) {
-            setFirst(value, false)
-        }
+    val year: Int
         get() = yearPickerView.selectedIndex
+
+    fun setDate(year: Int, month: Int, day: Int) {
+        setFirst(year, false) {
+            setSecond(month, false) {
+                setThird(day, false, null)
+            }
+        }
+    }
 
     var isCircular: Boolean = false
         set(value) {
@@ -199,25 +199,28 @@ class DatePickerView @JvmOverloads constructor(
     private val binding: TriplePickerViewBinding =
         TriplePickerViewBinding.inflate(LayoutInflater.from(context), this)
 
-    override fun setFirst(value: Int, animated: Boolean) {
+    override fun setFirst(value: Int, animated: Boolean, completion: (() -> Unit)?) {
         if (this.year == value) {
+            completion?.invoke()
             return
         }
-        yearPickerView.setSelectedIndex(value, animated)
+        yearPickerView.setSelectedIndex(value, animated, completion)
     }
 
-    override fun setSecond(value: Int, animated: Boolean) {
+    override fun setSecond(value: Int, animated: Boolean, completion: (() -> Unit)?) {
         if (this.month == value) {
+            completion?.invoke()
             return
         }
-        monthPickerView.setSelectedIndex(value, animated)
+        monthPickerView.setSelectedIndex(value, animated, completion)
     }
 
-    override fun setThird(value: Int, animated: Boolean) {
+    override fun setThird(value: Int, animated: Boolean, completion: (() -> Unit)?) {
         if (this.day == value) {
+            completion?.invoke()
             return
         }
-        dayPickerView.setSelectedIndex(value - 1, animated)
+        dayPickerView.setSelectedIndex(value - 1, animated, completion)
     }
 
     override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
@@ -253,9 +256,11 @@ class DatePickerView @JvmOverloads constructor(
         yearPickerView.setWheelListener(this)
 
         val calendar = Calendar.getInstance()
-        year = calendar.get(Calendar.YEAR)
-        month = calendar.get(Calendar.MONTH)
-        day = calendar.get(Calendar.DAY_OF_MONTH)
+        setDate(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
     }
 
     private fun updateDayPickerViewIfNeeded(): Boolean {
