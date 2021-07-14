@@ -75,16 +75,8 @@ abstract class TripleDependentPickerView @JvmOverloads constructor(
         if (oldData?.first != newData?.first) {
             adapters.first.notifyDataSetChanged()
         }
-        val current = currentData
-        if (current.first == newData?.first &&
-            (!(newData.first == oldData?.first && newData.second == oldData.second))
-        ) {
-            adapters.second.notifyDataSetChanged()
-        }
-        if (current.first == newData?.first && current.second == newData.second && newData != oldData
-        ) {
-            adapters.third.notifyDataSetChanged()
-        }
+        adapters.second.notifyDataSetChanged()
+        adapters.third.notifyDataSetChanged()
     }
 
     protected abstract fun setFirst(value: Int, animated: Boolean)

@@ -1,10 +1,11 @@
 Change Log
 ===
 
-0.3.1
+0.3.2
 ---
 #### Bug Fix
 1. Fix the UI bug when the date picker is set continuously.
+2. Fix the bug that the current time is wrong
 
 0.3.0
 ---

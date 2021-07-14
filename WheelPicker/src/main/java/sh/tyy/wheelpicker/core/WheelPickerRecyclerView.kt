@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -134,24 +135,29 @@ class WheelPickerRecyclerView @JvmOverloads constructor(
         }
     }
 
-    private fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
-        super.scrollToPosition(position)
-        post {
-            do {
-                val layoutManager = this.layoutManager ?: break
-                val view = layoutManager.findViewByPosition(position) ?: break
+    private var scrollToCenterPositionListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
-                val snapDistance =
-                    snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: break
-                if (snapDistance[0] != 0 || snapDistance[1] != 0) {
-                    scrollBy(snapDistance[0], snapDistance[1])
-                }
-            } while (false)
-            post {
+    private fun scrollToCenterPosition(position: Int, completion: (() -> Unit)? = null) {
+        viewTreeObserver.removeOnGlobalLayoutListener(scrollToCenterPositionListener)
+        scrollToCenterPositionListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                do {
+                    val layoutManager = this@WheelPickerRecyclerView.layoutManager ?: break
+                    val view = layoutManager.findViewByPosition(position) ?: break
+
+                    val snapDistance =
+                        snapHelper.calculateDistanceToFinalSnap(layoutManager, view) ?: break
+                    if (snapDistance[0] != 0 || snapDistance[1] != 0) {
+                        scrollBy(snapDistance[0], snapDistance[1])
+                    }
+                } while (false)
                 refreshCurrentPosition()
                 completion?.invoke()
             }
         }
+        viewTreeObserver.addOnGlobalLayoutListener(scrollToCenterPositionListener)
+        super.scrollToPosition(position)
     }
 
     fun scrollToCenterPosition(
