@@ -83,7 +83,9 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         if (animated) {
             recyclerView.smoothScrollToCenterPosition(dstPosition, ignoreHapticFeedback = true)
         } else {
-            recyclerView.scrollToCenterPosition(dstPosition, true)
+            post {
+                recyclerView.scrollToCenterPosition(dstPosition, ignoreHapticFeedback = true)
+            }
         }
     }
 
@@ -93,7 +95,7 @@ abstract class BaseWheelPickerView @JvmOverloads constructor(
         recyclerView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
         recyclerView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         recyclerView.setWheelListener(this)
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 listener?.onScrollStateChanged(newState)
             }

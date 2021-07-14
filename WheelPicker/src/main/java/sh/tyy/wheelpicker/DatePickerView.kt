@@ -49,7 +49,8 @@ class DatePickerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : TripleDependentPickerView(context, attrs, defStyleAttr), BaseWheelPickerView.WheelPickerViewListener {
+) : TripleDependentPickerView(context, attrs, defStyleAttr),
+    BaseWheelPickerView.WheelPickerViewListener {
 
     enum class Mode {
         YEAR_MONTH_DAY,
@@ -296,15 +297,6 @@ class DatePickerView @JvmOverloads constructor(
         return true
     }
 
-    private var isCurrentYearOnEdge: Boolean? = null
-        set(value) {
-            field = value
-            if (value == false) {
-                isCurrentMonthOnEdge = false
-            }
-        }
-    private var isCurrentMonthOnEdge: Boolean? = null
-
     // region BaseWheelPickerView.WheelPickerViewListener
     override fun didSelectItem(picker: BaseWheelPickerView, index: Int) {
         var dayPickerUpdated = false
@@ -312,18 +304,12 @@ class DatePickerView @JvmOverloads constructor(
             dayPickerUpdated = updateDayPickerViewIfNeeded()
         }
         if (minDate != null || maxDate != null) {
-            val isCurrentYearOnEdge =
-                minDateCalendar.get(Calendar.YEAR) == year || maxDateCalendar.get(Calendar.YEAR) == year
-            if (this.isCurrentYearOnEdge != isCurrentYearOnEdge) {
-                this.isCurrentYearOnEdge = isCurrentYearOnEdge
-                if (picker == yearPickerView) {
-                    monthAdapter.notifyDataSetChanged()
+            if (picker == yearPickerView) {
+                monthAdapter.notifyDataSetChanged()
+                if (!dayPickerUpdated) {
+                    dayAdapter.notifyDataSetChanged()
                 }
-            }
-            val isCurrentMonthOnEdge =
-                minDateCalendar.get(Calendar.MONTH) == month || maxDateCalendar.get(Calendar.MONTH) == month
-            if (this.isCurrentMonthOnEdge != isCurrentMonthOnEdge && !dayPickerUpdated) {
-                this.isCurrentMonthOnEdge = isCurrentMonthOnEdge
+            } else if (picker == monthPickerView && !dayPickerUpdated) {
                 dayAdapter.notifyDataSetChanged()
             }
         }
