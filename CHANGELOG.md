@@ -1,8 +1,11 @@
 Change Log
 ===
 
-0.3.2
+0.4.0
 ---
+#### Enhancement
+1. DatePickerView uses setDate(year:month:day) to replace setYear, setMonth, setDay. This ensures that the values are set in order.
+
 #### Bug Fix
 1. Fix the UI bug when the date picker is set continuously.
 2. Fix the bug that the current time is wrong
