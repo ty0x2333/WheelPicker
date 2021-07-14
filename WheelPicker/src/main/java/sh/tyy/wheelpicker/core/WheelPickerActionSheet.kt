@@ -4,19 +4,19 @@ import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.view.*
-import android.widget.FrameLayout
 import android.widget.PopupWindow
 import sh.tyy.wheelpicker.R
+import sh.tyy.wheelpicker.databinding.PickerActionSheetContentBinding
 
-abstract class WheelPickerActionSheet<Picker: View>(context: Context) {
+abstract class WheelPickerActionSheet<Picker : View>(context: Context) {
     var pickerView: Picker? = null
         private set
     protected val popupWindow: PopupWindow
-    protected var contentView: View =
-        LayoutInflater.from(context).inflate(R.layout.picker_action_sheet_content, null)
+    protected val contentBinding: PickerActionSheetContentBinding =
+        PickerActionSheetContentBinding.inflate(LayoutInflater.from(context), null, false)
 
     fun setOnClickOkButtonListener(listener: View.OnClickListener) {
-        contentView.findViewById<View>(R.id.ok_button)?.setOnClickListener(listener)
+        contentBinding.okButton.setOnClickListener(listener)
     }
 
     fun setOnDismissListener(listener: PopupWindow.OnDismissListener) {
@@ -25,7 +25,7 @@ abstract class WheelPickerActionSheet<Picker: View>(context: Context) {
 
     init {
         popupWindow = PopupWindow(
-            contentView,
+            contentBinding.root,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
@@ -36,7 +36,7 @@ abstract class WheelPickerActionSheet<Picker: View>(context: Context) {
 
     protected fun setPickerView(pickerView: Picker) {
         this.pickerView = pickerView
-        val containerView = contentView.findViewById<FrameLayout>(R.id.container_view)
+        val containerView = contentBinding.containerView
         containerView.addView(pickerView)
         pickerView.layoutParams.apply {
             width = ViewGroup.LayoutParams.MATCH_PARENT

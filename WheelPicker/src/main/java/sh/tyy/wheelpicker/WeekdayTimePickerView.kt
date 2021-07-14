@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import sh.tyy.wheelpicker.core.BaseWheelPickerView
 import sh.tyy.wheelpicker.core.TextWheelAdapter
 import sh.tyy.wheelpicker.core.TextWheelPickerView
+import sh.tyy.wheelpicker.databinding.TriplePickerViewBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,6 +84,9 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     private val hourAdapter = TextWheelAdapter()
     private val minuteAdapter = TextWheelAdapter()
 
+    private val binding: TriplePickerViewBinding =
+        TriplePickerViewBinding.inflate(LayoutInflater.from(context), this)
+
     override fun setHapticFeedbackEnabled(hapticFeedbackEnabled: Boolean) {
         super.setHapticFeedbackEnabled(hapticFeedbackEnabled)
         weekdayPickerView.isHapticFeedbackEnabled = hapticFeedbackEnabled
@@ -91,15 +95,14 @@ class WeekdayTimePickerView @JvmOverloads constructor(
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
-        weekdayPickerView = findViewById(R.id.left_picker)
+        weekdayPickerView = binding.leftPicker
         weekdayPickerView.setAdapter(weekdayAdapter)
 
-        hourPickerView = findViewById(R.id.mid_picker)
+        hourPickerView = binding.midPicker
         hourPickerView.setAdapter(hourAdapter)
         hourAdapter.values = (0 until 24).map { TextWheelPickerView.Item("$it", "$it") }
 
-        minutePickerView = findViewById(R.id.right_picker)
+        minutePickerView = binding.rightPicker
         minutePickerView.setAdapter(minuteAdapter)
         minuteAdapter.values =
             (0 until 60).map { TextWheelPickerView.Item("$it", "$it") }

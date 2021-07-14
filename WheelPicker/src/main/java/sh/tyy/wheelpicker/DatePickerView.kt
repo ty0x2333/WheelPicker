@@ -3,13 +3,13 @@ package sh.tyy.wheelpicker
 import android.content.Context
 import android.text.SpannableString
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import sh.tyy.wheelpicker.core.*
+import sh.tyy.wheelpicker.databinding.TriplePickerViewBinding
 import java.lang.ref.WeakReference
 import java.text.DateFormatSymbols
 import java.util.*
@@ -196,6 +196,9 @@ class DatePickerView @JvmOverloads constructor(
     private val monthAdapter = ItemEnableWheelAdapter(WeakReference(this))
     private val dayAdapter = ItemEnableWheelAdapter(WeakReference(this))
 
+    private val binding: TriplePickerViewBinding =
+        TriplePickerViewBinding.inflate(LayoutInflater.from(context), this)
+
     override fun setFirst(value: Int, animated: Boolean) {
         if (this.year == value) {
             return
@@ -225,10 +228,9 @@ class DatePickerView @JvmOverloads constructor(
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.triple_picker_view, this, true)
-        dayPickerView = findViewById(R.id.right_picker)
+        dayPickerView = binding.rightPicker
         dayPickerView.setAdapter(dayAdapter)
-        monthPickerView = findViewById(R.id.mid_picker)
+        monthPickerView = binding.midPicker
         monthPickerView.setAdapter(monthAdapter)
         monthAdapter.values = (0 until 12).map {
             TextWheelPickerView.Item(
@@ -236,7 +238,7 @@ class DatePickerView @JvmOverloads constructor(
                 DateFormatSymbols.getInstance().shortMonths[it]
             )
         }
-        yearPickerView = findViewById(R.id.left_picker)
+        yearPickerView = binding.leftPicker
         yearPickerView.setAdapter(yearAdapter)
         addView(highlightView)
         (highlightView.layoutParams as? LayoutParams)?.apply {
